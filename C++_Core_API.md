@@ -31,3 +31,21 @@ bool const isAddrsEqual = elementAddr1 == elementAddr2;
 ScMemoryContext context;
 // After you can use this object to call any API methods.
 ```
+## GenerateNode
+
+Для создания sc-узлов вы можете использовать метод GenerateNode, для создания sc-ссылок - метод GenerateLink, для создания sc-коннекторов между ними - метод GenerateConnector. Все эти методы проверяют переданные sc-типы. Если указанный sc-тип недействителен, то метод выдает исключение utils::ExceptionInvalidParams с описанием этой ошибки.
+
+```
+...
+// Generate sc-node and get sc-address in sc-memory of it.
+ScAddr const & nodeAddr = context.GenerateNode(ScType::ConstNode);
+// Specified sc-type must be one of ScType::...Node... type.
+```
+
+## GenerateLink
+```
+...
+// Generate sc-link and get sc-address in sc-memory of it.
+ScAddr const & linkAddr = context.GenerateLink(ScType::ConstNodeLink);
+// Specified sc-type must be one of ScType::...NodeLink... type.
+```
