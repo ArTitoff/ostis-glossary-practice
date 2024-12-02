@@ -343,6 +343,13 @@ SC_NOT_IMPLEMENTED("This code is not implemented.");
 
 Уровень логирования можно настроить в конфигурационном файле ```sc-machine.ini```. Измените параметр ```log_level``` в группе ```[sc-memory]``` на одно из значений из списка ```[Debug, Info, Warning, Error]```. Посмотрите [пример конфигурационного файла](https://github.com/ArTitoff/ostis-glossary-practice/blob/main/Configuration_file.md), чтобы узнать больше о группах и их параметрах.
 
+## Расширенный API
+
+Описанные методы являются частью базового C++ API sc-memory. Вы можете ознакомиться с расширенным C++ API sc-memory и использовать его:
+
+* ScHelper C++ API **ТУТ ДОЛЖНА БЫТЬ ССЫЛКА** to manipulate with system identifiers of sc-elements;
+* ScTemplate C++ API **ТУТ ДОЛЖНА БЫТЬ ССЫЛКА** , providing functionality for creating, manipulating and retrieving large graph structures.
+
 ## Часто Задаваемые Вопросы
 * В чем разница между ScType::ConstCommonArc и ScType::ConstPermPosArc?
 * Как я могу указать пустой ScAddr?
