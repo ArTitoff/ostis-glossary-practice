@@ -135,7 +135,7 @@ ScAddr const & targetAddr = context.GetArcTargetElement(arcAddr);
 ```
 ...
 // Создать sc-итератор для поиска всех sc-адресов sc-элементов 
-// с неизвестным sc-типом, принадлежащим sc-набору, с sc-адресом `setAddr`.
+// с неизвестным sc-типом, принадлежащим sc-множеству, с sc-адресом `setAddr`.
 ScIterator3Ptr it3 = context.CreateIterator3(
     setAddr,
     ScType::ConstPermPosArc,
@@ -150,4 +150,78 @@ while (it3->Next())
 // в противном случае `false`.
  ... // Напишите свой код для обработки найденной sc-конструкции.
 }
+```
+## ScIterator5
+
+```
+...
+// Создать sc-итератор для поиска всех sc-адресов sc-узлов,
+// пары которых с sc-элементом с адресом `setAddr` принадлежат отношению 
+// с sc-адресом `nrelDecompositionAddr`.
+ScIterator5Ptr it5 = context.CreateIterator5(
+    setAddr,
+    ScType::ConstCommonArc,
+    ScType::ConstNode,
+    ScType::ConstPermPosArc,
+    nrelDecompositionAddr);
+// Используйте `it5->Next()`, чтобы перейти к следующей
+// подходящей по условию sc-конструкции. 
+// Она возвращает `true`, если найдена следующая подходящая конструкция,
+// в противном случае `false`.
+while (it5->Next())
+{
+  // Чтобы получить значения, используйте `it5->Get(index)`,
+  // где index в диапазоне [0; 4].
+ ... // Напишите свой код для обработки найденной sc-конструкции.
+}
+```
+
+Второй подход позволяет вам выполнять итерацию 3-элементных и 5-элементных конструкций с меньшим объемом кода, и он подходит, когда вам нужно проитерировать все результаты.
+
+> **Примечание:** Используйте следующие методы, если вам нужно проитерировать все результаты. Потому что так проще.
+
+## ForEach
+
+```
+...
+// Создать sc-итератор на основе обратного вызова
+// для поиска всех sc-адресов sc-элементов 
+// с неизвестным sc-типом, принадлежащим sc-множеством, с sc-адресом `setAddr`.
+context.ForEach(
+    setAddr,
+    ScType::ConstPermPosArc,
+    ScType::Unknown,
+    [] (ScAddr const & srcAddr, ScAddr const & edgeAddr, ScAddr const & trgAddr)
+{
+// srcAddr равен 0-му значению итератора
+ // edgeAddr равен 1-му значению итератора
+ // trgAddr равен 2-му значению итератора
+ ... // Напишите свой код для обработки найденной sc-конструкции.
+});
+```
+```
+...
+// Создать sc-итератор на основе обратного вызова
+// для поиска всех sc-адресов sc-узлов,
+// пары которых с sc-элементом с адресом `setAddr` принадлежат отношению 
+// с sc-адресом `nrelDecompositionAddr`.
+context.ForEach(
+  setAddr,
+  ScType::ConstCommonArc,
+  ScType::ConstNode,
+  ScType::ConstPermPosArc,
+  nrelDecompositionAddr
+  [] (ScAddr const & srcAddr, 
+      ScAddr const & connectorAddr, 
+      ScAddr const & trgAddr, 
+      ScAddr const & connectorAttrAddr, 
+      ScAddr const & attrAddr)
+{
+ // srcAddr равен 0-му значению sc-итератора
+ // connectorAddr равен 1-му значению sc-итератора
+ // trgAddr равен 2-му значению sc-итератора
+ // connectorAttrAddr равен 3-му значению sc-итератора
+ // attrAddr равен 4-му значению sc-итератора
+ ... // Напишите свой код для обработки найденной sc-конструкции.
+});
 ```
