@@ -1,6 +1,6 @@
 Пример конфигурационного файла
 
-```
+```cpp
 [sc-memory]
 # Maximum number of segments. By default, it is 1000.
 # Remember, that one sc-segment size is 3932144 bytes. 1000 segments size is 4 GB.
