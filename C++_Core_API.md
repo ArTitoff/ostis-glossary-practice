@@ -275,3 +275,57 @@ bool const numericContentExist
 ```
 
 > **Примечание:** Вы можете установить пустое содержимое в sc-ссылку, но это означает, что эта sc-ссылка имеет содержимое, и этот метод для этой sc-ссылки вернет значение ```true```.
+
+## SearchLinksByContent
+
+Вы можете найти sc-ссылки по их содержимому. Для этого воспользуйтесь методом ```SearchLinksByContent```.
+
+```
+...
+// Найдите sc-ссылки с указанным строковым содержимым.
+ScAddrSet const & linkAddrs1 = context.SearchLinksByContent("my content");
+// Вектор `linkAddrs1` должен содержать sc-адрес `linkAddr1`.
+
+// Найдите sc-ссылки с указанным числовым содержимым.
+ScAddrSet const & linkAddrs2 = context.SearchLinksByContent(10f);
+// Вектор `linkAddrs2` должен содержать sc-адрес `linkAddr2`.
+```
+
+## SearchLinksByContentSubstring
+
+Вы можете найти sc-ссылки по подстроке их содержимого. Для этого используйте метод ```SearchLinksByContentSubstring```.
+
+```
+...
+// Найдите sc-ссылки с указанной подстрокой содержимого строки.
+ScAddrSet const & linkAddrs1 
+  = context.SearchLinksByContentSubstring("my cont");
+// Вектор `linkAddrs1` должен содержать sc-адрес `linkAddr1`.
+```
+
+## ScException
+
+Чтобы объявить свои собственные исключения, наследуйте их от класса ```ScException```.
+
+ ```cpp
+class MyException final : public ScException
+{
+public:
+  explicit MyException(std::string const & msg) 
+    : ScException("MyException: " + msg)
+  {}
+};
+```
+
+Чтобы выбрасывать исключения, используйте ```SC_THROW_EXCEPTION(имяИсключения, сообщение);```.
+
+```cpp
+SC_THROW_EXCEPTION(MyException, "It is my exception.");
+```
+Выбрасывает исключение для не реализованной части кода.
+
+```cpp
+SC_NOT_IMPLEMENTED("This code is not implemented.");
+```
+
+
