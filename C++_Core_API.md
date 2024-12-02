@@ -65,3 +65,28 @@ ScAddr const & arcAddr = context.GenerateConnector(
 Если указанные sc-адреса исходного и целевого sc-элементов недействительны, то метод выдает исключение ```utils::ExceptionInvalidParams``` с описанием того, что некоторые из указанных sc-адресов недействительны.
 
 > **Примечание:** Хотя этот метод вызван неправильно и может ввести в заблуждение, но с его помощью вы можете создать любые sc-коннекторы.
+
+## IsElement
+
+Чтобы проверить, является ли указанный sc-адрес действительным в sc-памяти, вы можете использовать метод ```IsElement```. Действительный sc-адрес относится к sc-адресу, который существует в sc-памяти и который соответствует некоторому sc-элементу в ней.
+
+```
+...
+// Check if all created sc-elements are valid.
+bool const isNodeValid = context.IsElement(nodeAddr);
+bool const isLinkValid = context.IsElement(linkAddr);
+bool const isArcValid = context.IsElement(arcAddr);
+```
+
+> **Примечание:** Вы можете проверить, не является ли указанный sc-адрес пустым, вызвав из этого sc-адреса объектный метод ```IsValid```. Но предпочтительнее использовать ```IsElement```, он проверяет, существует ли указанный sc-адрес и действителен ли он в sc-памяти.
+
+## GetElementType
+При необходимости вы можете получить типы sc-элементов по их sc-адресам. Если указанный sc-адрес неверен, то метод выдает исключение ```utils::ExceptionInvalidParams``` с описанием того, что указанный sc-адрес неверен.
+
+```
+...
+// Get created sc-elements sc-types.
+ScType const & nodeType = context.GetElementType(nodeAddr);
+ScType const & linkType = context.GetElementType(linkAddr);
+ScType const & arcType = context.GetElementType(arcAddr);
+```
