@@ -225,3 +225,53 @@ context.ForEach(
  ... // Напишите свой код для обработки найденной sc-конструкции.
 });
 ```
+## EraseElement
+
+Все sc-элементы могут быть удалены из sc-памяти. Для этого вы можете использовать метод ```EraseElement```.
+
+```
+...
+// Удалить все созданные sc-элементы.
+bool const isNodeErased = context.EraseElement(nodeAddr);
+// Необходимо удалить sc-элементы с sc-адресами `nodeAddr` и `arcAddr`.
+bool const isArcErased = context.EraseElement(arcAddr);
+// sc-элемент с sc-адресом `targetAddr` должен быть удален.
+```
+
+## SetLinkContent
+
+Помимо создания и проверки элементов, API также поддерживает обновление и удаление содержимого sc-ссылок. Если указанный sc-элемент является sc-ссылкой, вы можете установить в него содержимое. При повторной установке нового содержимого в sc-ссылки предыдущее содержимое из этой sc-ссылки удаляется. Если указанный sc-адрес неверен, то метод выдает исключение ```utils::ExceptionInvalidParams``` с описанием того, что указанный sc-адрес неверен.
+
+```
+...
+ScAddr const & linkAddr1 = context.GenerateLink(ScType::ConstNodeLink);
+// Установите содержимое строки в созданную sc-ссылку.
+context.SetLinkContent(linkAddr1, "my content");
+
+ScAddr const & linkAddr2 = context.GenerateLink(ScType::ConstNodeLink);
+// Установите числовое содержимое в созданную sc-ссылку.
+context.SetLinkContent(linkAddr2, 10f);
+...
+```
+
+> **Примечание:** Не используйте значение результата, оно ничего не значит.
+
+## GetLinkContent
+
+Чтобы получить существующее содержимое из sc-ссылки, вы можете использовать метод  ```GetLinkContent```. Содержимое может быть представлено в виде числа или строки. Если содержимое отсутствует в sc-ссылке, метод ```GetLinkContent``` вернет значение ```false```, а результат будет пустым.
+
+```
+...
+// Получить содержимое строки из sc-link.
+std::string stringContent;
+bool const stringContentExist 
+  = context.GetLinkContent(linkAddr1, stringContent);
+
+// Получите числовое содержимое из sc-link.
+float numericContent;
+bool const numericContentExist 
+  = context.GetLinkContent(linkAddr1, numericContent);
+...
+```
+
+> **Примечание:** Вы можете установить пустое содержимое в sc-ссылку, но это означает, что эта sc-ссылка имеет содержимое, и этот метод для этой sc-ссылки вернет значение ```true```.
