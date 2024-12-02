@@ -51,3 +51,17 @@ ScAddr const & linkAddr = context.GenerateLink(ScType::ConstNodeLink);
 ```
 
 > **Примечание:** Теперь все sc-ссылки не являются sc-узлами. Это может быть исправлено в последующих версиях sc-machine. Но вы можете использовать метод ```GenerateNode``` для создания sc-ссылок.
+
+## GenerateConnector
+```
+...
+// Generate sc-arc between sc-node and sc-link and get sc-address in 
+// sc-memory of it.
+ScAddr const & arcAddr = context.GenerateConnector(
+    ScType::ConstPermPosArc, nodeAddr, linkAddr);
+// Specified sc-type must be one of ScType::Edge... type.
+```
+
+Если указанные sc-адреса исходного и целевого sc-элементов недействительны, то метод выдает исключение ```utils::ExceptionInvalidParams``` с описанием того, что некоторые из указанных sc-адресов недействительны.
+
+> **Примечание:** Хотя этот метод вызван неправильно и может ввести в заблуждение, но с его помощью вы можете создать любые sc-коннекторы.
