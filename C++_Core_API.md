@@ -21,3 +21,13 @@ ScAddr elementAddr2 = // some call of the API method 2
 // Compare sc-addresses.
 bool const isAddrsEqual = elementAddr1 == elementAddr2;
 ```
+## ScMemoryContext
+
+Это класс, предоставляющий все методы API для создания, управления, извлечения и удаления sc-элементов в sc-памяти. Он относится к набору атрибутов и прав некоторого субъекта действия в sc-памяти (пользователя или агента), которые используются во время выполнения методов API.
+
+```
+...
+// To create such context use constructor of ScMemoryContext.
+ScMemoryContext context;
+// After you can use this object to call any API methods.
+```
