@@ -16,9 +16,9 @@ Sc-память состоит из sc-элементов. Sc-элементы �
 
 ```
 ...
-ScAddr elementAddr1 = // some call of the API method 1
-ScAddr elementAddr2 = // some call of the API method 2
-// Compare sc-addresses.
+ScAddr elementAddr1 = // некоторый вызов метода API 1
+ScAddr elementAddr2 = // некоторый вызов метода API 2
+// Сравниваем sc-адреса
 bool const isAddrsEqual = elementAddr1 == elementAddr2;
 ```
 ## ScMemoryContext
@@ -27,9 +27,9 @@ bool const isAddrsEqual = elementAddr1 == elementAddr2;
 
 ```
 ...
-// To create such context use constructor of ScMemoryContext.
+// Для создания такого контекста используйте конструктор ScMemoryContext.
 ScMemoryContext context;
-// After you can use this object to call any API methods.
+// После этого вы можете использовать этот объект для вызова любых методов API.
 ```
 ## GenerateNode
 
@@ -37,17 +37,17 @@ ScMemoryContext context;
 
 ```
 ...
-// Generate sc-node and get sc-address in sc-memory of it.
+// Сгенерировать sc-узел и получить его sc-адрес в sc-памяти.
 ScAddr const & nodeAddr = context.GenerateNode(ScType::ConstNode);
-// Specified sc-type must be one of ScType::...Node... type.
+// Указанный sc-тип должен быть одним из типов ScType::...Node... type.
 ```
 
 ## GenerateLink
 ```
 ...
-// Generate sc-link and get sc-address in sc-memory of it.
+// Сгенерируйте sc-ссылку и получите ее sc-адрес в sc-памяти.
 ScAddr const & linkAddr = context.GenerateLink(ScType::ConstNodeLink);
-// Specified sc-type must be one of ScType::...NodeLink... type.
+// Указанный sc-тип должен быть одним из типов ScType::...NodeLink... type.
 ```
 
 > **Примечание:** Теперь все sc-ссылки не являются sc-узлами. Это может быть исправлено в последующих версиях sc-machine. Но вы можете использовать метод ```GenerateNode``` для создания sc-ссылок.
@@ -55,11 +55,11 @@ ScAddr const & linkAddr = context.GenerateLink(ScType::ConstNodeLink);
 ## GenerateConnector
 ```
 ...
-// Generate sc-arc between sc-node and sc-link and get sc-address in 
-// sc-memory of it.
+// Сгенерировать sc-дугу между sc-узлом и sc-каналом и получить sc-адрес в 
+// sc-памяти этого узла.
 ScAddr const & arcAddr = context.GenerateConnector(
     ScType::ConstPermPosArc, nodeAddr, linkAddr);
-// Specified sc-type must be one of ScType::Edge... type.
+// Указанный sc-тип должен быть одним из типовScType::Edge... type.
 ```
 
 Если указанные sc-адреса исходного и целевого sc-элементов недействительны, то метод выдает исключение ```utils::ExceptionInvalidParams``` с описанием того, что некоторые из указанных sc-адресов недействительны.
@@ -72,7 +72,7 @@ ScAddr const & arcAddr = context.GenerateConnector(
 
 ```
 ...
-// Check if all created sc-elements are valid.
+// Проверьте, все ли созданные sc-элементы допустимы.
 bool const isNodeValid = context.IsElement(nodeAddr);
 bool const isLinkValid = context.IsElement(linkAddr);
 bool const isArcValid = context.IsElement(arcAddr);
@@ -85,8 +85,40 @@ bool const isArcValid = context.IsElement(arcAddr);
 
 ```
 ...
-// Get created sc-elements sc-types.
+// Получить созданные sc-элементы sc-типов.
 ScType const & nodeType = context.GetElementType(nodeAddr);
 ScType const & linkType = context.GetElementType(linkAddr);
 ScType const & arcType = context.GetElementType(arcAddr);
+```
+## SetElementSubtype
+
+Вы можете изменить семантический sc-тип sc-элемента. Используйте метод ```SetElementSubtype``` и укажите семантический sc-тип для синтаксического sc-типа sc-элемента.
+
+```
+...
+// Сгенерировать sc-узел и получить его sc-адрес в sc-памяти.
+ScAddr const & nodeAddr = context.GenerateNode(ScType::Node);
+bool const isSubtypeElementChanged 
+    = context.SetElementSubtype(node, ScType::ConstNode);
+// Значение `isSubtypeElementChanged` должно быть равно `true`.
+```
+> **Примечание:** Не используйте этот метод для изменения синтаксического sc-типа для sc-элемента. Это вводит в заблуждение.
+
+## GetConnectorIncidentElements
+
+Чтобы получить инцидентные (исходные и целевые) sc-элементы, вы можете использовать методы ```GetConnectorIncidentElements```, ```GetArcSourceElement``` и ```GetArcTargetElement```. Если указанный sc-адрес недействителен, то эти методы выдадут исключение utils::ExceptionInvalidParams с описанием того, что указанный sc-адрес sc-коннектора недействителен.
+
+```
+...
+// Получите инцидентные sc-элементы для sc-дуги.
+auto const [sourceAddr, targetAddr] 
+  = context.GetConnectorIncidentElements(arcAddr);
+// sc-адрес `sourceAddr` должен быть равен sc-адресу `nodeAddr` 
+// и sc-адрес `targetAddr` должен быть равен sc-адресу `linkAddr`.
+...
+// Или получите инцидентные источник и цель sc-дуги отдельно.
+ScAddr const & sourceAddr = context.GetArcSourceElement(arcAddr);
+// sc-адрес `sourceAddr` должен быть равен sc-адресу `nodeAddr`.
+ScAddr const & targetAddr = context.GetArcTargetElement(arcAddr);
+// sc-адрес `targetAddr` должен быть равен sc-адресу `linkAddr`.
 ```
