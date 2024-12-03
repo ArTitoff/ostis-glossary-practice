@@ -99,7 +99,7 @@ ScType const & arcType = context.GetElementType(arcAddr);
 // Сгенерировать sc-узел и получить его sc-адрес в sc-памяти.
 ScAddr const & nodeAddr = context.GenerateNode(ScType::Node);
 bool const isSubtypeElementChanged 
-    = context.SetElementSubtype(node, ScType::ConstNode);
+    = context.SetElementSubtype(nodeAddr, ScType::ConstNode);
 // Значение `isSubtypeElementChanged` должно быть равно `true`.
 ```
 > **Примечание:** Не используйте этот метод для изменения синтаксического sc-типа для sc-элемента. Это вводит в заблуждение.
@@ -284,11 +284,11 @@ bool const numericContentExist
 ...
 // Найдите sc-ссылки с указанным строковым содержимым.
 ScAddrSet const & linkAddrs1 = context.SearchLinksByContent("my content");
-// Вектор `linkAddrs1` должен содержать sc-адрес `linkAddr1`.
+// Множество `linkAddrs1` должно содержать sc-адрес `linkAddr1`.
 
 // Найдите sc-ссылки с указанным числовым содержимым.
 ScAddrSet const & linkAddrs2 = context.SearchLinksByContent(10f);
-// Вектор `linkAddrs2` должен содержать sc-адрес `linkAddr2`.
+// Множество `linkAddrs2` должно содержать sc-адрес `linkAddr2`.
 ```
 
 ## SearchLinksByContentSubstring
@@ -300,7 +300,7 @@ ScAddrSet const & linkAddrs2 = context.SearchLinksByContent(10f);
 // Найдите sc-ссылки с указанной подстрокой содержимого строки.
 ScAddrSet const & linkAddrs1 
   = context.SearchLinksByContentSubstring("my cont");
-// Вектор `linkAddrs1` должен содержать sc-адрес `linkAddr1`.
+// Множество `linkAddrs1` должен содержать sc-адрес `linkAddr1`.
 ```
 
 ## ScException
