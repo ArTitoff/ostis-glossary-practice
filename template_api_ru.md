@@ -115,21 +115,21 @@ templ.Triple(
 
 ### **Quintuple**
 
-It is the method that adds quintuple sc-construction into sc-template. There are some examples of using this 
-function to produce simple sc-templates:
+Это метод, который добавляет пятиэлементную sc-конструкцию в sc-шаблон. Есть несколько примеров использования этой
+функции для создания простых sc-шаблонов:
 
 <table>
   <tr>
-    <th>Template</th>
-    <th>Description</th>
+    <th>Шаблон</th>
+    <th>Описание</th>
   </tr>
 
   <tr>
     <td>f_a_a_a_a</td>
     <td>
-      <strong>Graphical representation</strong>
+      <strong>Графическое представление</strong>
       <br/><scg src="../images/templates/template_quintuple_f_a_a_a_a_example.gwf"></scg>
-      <br/><strong>Equal C++ code</strong>
+      <br/><strong>Соответствующий код на C++</strong>
       <br/>
 <pre><code class="cpp">
 ScTemplate templ;
@@ -147,9 +147,9 @@ templ.Quintuple(
   <tr>
     <td>f_a_f_a_a</td>
     <td>
-      <strong>Graphical representation</strong>
+      <strong>Графическое представление</strong>
       <br/><scg src="../images/templates/template_quintuple_f_a_f_a_a_example.gwf"></scg>
-      <br/><strong>Equal C++ code</strong>
+      <br/><strong>Соответствующий код на C++</strong>
       <br/>
 <pre><code class="cpp">
 ScTemplate templ;
@@ -167,9 +167,9 @@ templ.Quintuple(
   <tr>
     <td>f_a_a_a_f</td>
     <td>
-      <strong>Graphical representation</strong>
+      <strong>Графическое представление</strong>
       <br/><scg src="../images/templates/template_quintuple_f_a_a_a_f_example.gwf"></scg>
-      <br/><strong>Equal C++ code</strong>
+      <br/><strong>Соответствующий код на C++</strong>
       <br/>
 <pre><code class="cpp">
 ScTemplate templ;
@@ -187,9 +187,9 @@ templ.Quintuple(
   <tr>
     <td>f_a_f_a_f</td>
     <td>
-      <strong>Graphical representation</strong>
+      <strong>Графическое представление</strong>
       <br/><scg src="../images/templates/template_quintuple_f_a_f_a_f_example.gwf"></scg>
-      <br/><strong>Equal C++ code</strong>
+      <br/><strong>Соответствующий код на C++</strong>
       <br/>
 <pre><code class="cpp">
 ScTemplate templ;
@@ -207,9 +207,9 @@ templ.Quintuple(
   <tr>
     <td>a_a_f_a_a</td>
     <td>
-      <strong>Graphical representation</strong>
+      <strong>Графическое представление</strong>
       <br/><scg src="../images/templates/template_quintuple_a_a_f_a_a_example.gwf"></scg>
-      <br/><strong>Equal C++ code</strong>
+      <br/><strong>Соответствующий код на C++</strong>
       <br/>
 <pre><code class="cpp">
 ScTemplate templ;
@@ -227,9 +227,9 @@ templ.Quintuple(
   <tr>
     <td>a_a_f_a_f</td>
     <td>
-      <strong>Graphical representation</strong>
+      <strong>Графическое представление</strong>
       <br/><scg src="../images/templates/template_quintuple_a_a_f_a_f_example.gwf"></scg>
-      <br/><strong>Equal C++ code</strong>
+      <br/><strong>Соответствующий код на C++</strong>
       <br/>
 <pre><code class="cpp">
 ScTemplate templ;
@@ -247,9 +247,9 @@ templ.Quintuple(
   <tr>
     <td>a_a_a_a_f</td>
     <td>
-      <strong>Graphical representation</strong>
+      <strong>Графическое представление</strong>
       <br/><scg src="../images/templates/template_quintuple_a_a_a_a_f_example.gwf"></scg>
-      <br/><strong>Equal C++ code</strong>
+      <br/><strong>Соответствующий код на C++</strong>
       <br/>
 <pre><code class="cpp">
 ScTemplate templ;
@@ -265,67 +265,68 @@ templ.Quintuple(
   </tr>
 </table>
 
-When sc-template search engine works, it tries to traverse graph by simple (triple or quintuple) sc-template in order they specified. For
-example, we need to check if specified sc-element (`_set`) is included into `concept_set` class and `concept_binary_relation` class:
+Когда поисковая система sc-template работает, она пытается просмотреть граф по простому (трехэлементному или пятиэлементному) sc-шаблону в указанном порядке. 
+Например, нам нужно проверить, включен ли указанный sc-элемент (`_set`) в классы `concept_set` и `concept_binary_relation`:
 
 <scg src="../images/templates/template_example_2.gwf"></scg>
 
-There is example code that generates equal sc-template.
+Вот пример кода таких шаблонов.
 
 ```cpp
 ...
-// Find key concepts that should be used in sc-template.
+// Найдите ключевые понятия, которые следует использовать в sc-шаблоне.
 ScAddr const & conceptSetAddr = context.SearchElementBySystemIdentifier("concept_set");
 ScAddr const & conceptBinaryRelationAddr 
     = context.SearchElementBySystemIdentifier("concept_binary_relation");
 
-// Generate sc-template and add triples into this sc-template.
+// Сгенерируйте sc-шаблон и добавьте тройку элементов в этот sc-шаблон.
 ScTemplate templ;
 templ.Triple(
-  conceptSetAddr,    // sc-address of concept set node
+  conceptSetAddr,    // sc -адрес узла concept set
   ScType::VarPermPosArc,
   ScType::VarNode >> "_set"
 );
 templ.Triple(
-  conceptBinaryRelationAddr,    // sc-address of concept binary relation node
+  conceptBinaryRelationAddr,    // sc -адрес узла concept binary relation
   ScType::VarPermPosArc,
   "_set"
 );
 ..
 ```
 
-In code, you can see a construction `ScType::VarNode >> "_set"` - this is a naming for a sc-template sc-element.
-It allows to set alias for a specified sc-element in sc-template, and use it many times in different triples. You can see,
-that in the second triple we use this alias `"_set"`. That means, that we need to place search result from a
-first triple into the second. So the second triple is a `f_a_f` style triple.
+В коде вы можете увидеть конструкцию "ScType::VarNode >> "_set"" - это имя для sc-элемента sc-шаблона.
+Это позволяет задать псевдоним для указанного sc-элемента в sc-шаблоне и использовать его много раз в разных тройках. Вы можете видеть,
+что во второй тройке мы используем этот псевдоним ""_set"`. Это означает, что нам нужно поместить результат поиска из
+первой тройки во вторую. Итак, вторая тройка - это тройка в стиле `f_a_f`.
 
-So if you want to use the same sc-element `_x` in different triples, and you doesn't know it `ScAddr`, then just use two
-main rules:
 
-* Set alias of this sc-element in a first occurrence of this sc-element in sc-template triples. You need to use `>>` operator to
-  do this (see code below, last sc-element of first triple).
-* When you need to use aliased sc-element in next triples, then just use it alias instead of `ScType` or `ScAddr` (see code
-  below, first sc-element if second triple).
+Итак, если вы хотите использовать один и тот же sc-элемент "_x" в разных тройках, и вы не знаете, что это за "ScAddr", тогда просто используйте два
+основных правила:
 
-There is the example code with naming.
+* Задайте псевдоним этому sc-элементу при первом появлении этого sc-элемента в тройках sc-шаблона. Для этого вам нужно использовать оператор `>>`
+(смотрите код ниже, последний sc-элемент первой тройки).
+* Если вам нужно использовать псевдоним sc-элемента в следующих тройках, просто используйте его псевдоним вместо `ScType` или `ScAddr` (смотрите код
+ниже, первый sc-элемент второй тройки).
+
+Вот пример кода с именованием(псевдонимом).
 
 ```cpp
 ...
 ScTemplate templ;
 templ.Triple(
-  anyAddr, // sc-address of known sc-element
-  ScType::VarPermPosArc,  // type of unknown sc-arc
-  ScType::VarNode >> "_x"  // type and alias for an unknown sc-element
+  anyAddr, // sc -адрес известного sc-элемента
+  ScType::VarPermPosArc,  // тип неизвестной sc-дуги
+  ScType::VarNode >> "_x"  // тип и псевдоним для неизвестного sc-элемента
 );
 templ.Triple(
-  "_x",  // say that is the same sc-element as the last on in a previous triple
-  ScType::VarPermPosArc,  // type of unknown sc-arc
-  ScType::VarNode  // type of unknown sc-node
+  "_x",  // скажем, это тот же sc-элемент, что и последний в предыдущей тройке
+  ScType::VarPermPosArc,  // тип неизвестной sc-дуги
+  ScType::VarNode  // тип неизвестного sc-узла
 );
 ...
 ```
 
-Inside a program object of a sc-template all its constructions are represented as triples.
+Внутри программного объекта sc-шаблона все его конструкции представлены в виде троек.
 
 ### **HasReplacement**
 
