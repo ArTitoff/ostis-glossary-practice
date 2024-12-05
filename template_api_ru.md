@@ -46,16 +46,16 @@ Sc-шаблоны - это очень мощный механизм для ра�
 
 <table>
   <tr>
-    <th>Template</th>
-    <th>Description</th>
+    <th>Шаблон</th>
+    <th>Описание</th>
   </tr>
 
   <tr>
     <td>f_a_a</td>
     <td>
-      <strong>Graphical representation</strong>
+      <strong>Графическое представление</strong>
       <br/><scg src="../images/templates/template_triple_f_a_a_example.gwf"></scg>
-      <br/><strong>Equal C++ code</strong>
+      <br/><strong>Соответствующий код на C++</strong>
       <br/>
 <pre><code class="cpp">
 ScTemplate templ;
@@ -65,18 +65,20 @@ templ.Triple(
   ScType::VarNode
 );
 </code></pre>
-      <br/>This triple sc-template is used to traverse outgoing sc-connectors from specified sc-element.
-      <br/>There <code>param1</code> is a known sc-address of sc-element. It must be a valid (use <code>IsElement</code> method to check). Where <code>_param2</code> and <code>_param3</code> are sc-types for compare by search engine. When search engine will traverse outgoing sc-connectors from <code>param1</code>. Construction will be added into traverse result, where outgoing sc-arc from <code>param1</code>, will suitable to specified type <code>_param2</code>, and type of target sc-element of this sc-arc will be suitable for a type <code>_param3</code>.
-      <br/>You can use any sc-type of <code>_param3</code> (including sc-connectors) depending on sc-construction you want to find. But <code>_param2</code> should be any sc-type of variable sc-connector.
+      <br/>Это трехэлементный sc-шаблон используется для обхода исходящих sc-коннекторов из указанного sc-элемента.
+      <br/> <code>param1</code> - это известный sc-адрес sc-элемента. Он должен быть действительным (используйте метод <code>IsElement</code> для проверки). Параметры <code>_param2</code> и <code>_param3</code> представляют собой sc-типы, которые будут использоваться для сравнения в поисковом движке. Когда поисковый движок будет обходить исходящие sc-коннекторы из <code>param1</code>, в результат обхода будет добавлена конструкция, где исходящие sc-дуги из <code>param1</code> будет соответствовать указанному типу <code>_param2</code>, а тип конечного sc-элемента этой sc-дуги будет соответствовать типу <code>_param3</code>.
+    <br/>Вы можете использовать любой sc-тип <code>_param3</code> (включая sc-коннекторы) в зависимости от sc-конструкции, которую вы хотите найти. Но <code>_param2</code> должен быть любым sc-типом переменного sc-коннектора.
     </td>
   </tr>
+
+
 
   <tr>
     <td>f_a_f</td>
     <td>
-      <strong>Graphical representation</strong>
+      <strong>Графическое представление</strong>
       <br/><scg src="../images/templates/template_triple_f_a_f_example.gwf"></scg>
-      <br/><strong>Equal C++ code</strong>
+      <br/><strong>Соответствующий код на C++</strong>
       <br/>
 <pre><code class="cpp">
 ScTemplate templ;
@@ -86,16 +88,16 @@ templ.Triple(
   param3
 );
 </code></pre>
-      <br/>This triple sc-template using to find sc-arc between <code>param1</code> and <code>param3</code>.
-      <br/>There are <code>param1</code> and <code>param3</code> a known <code>ScAddr</code> of sc-elements. Arc type <code>_param2</code> should be variable.
+      <br/> Этот тройной sc-шаблон используется для поиска sc-дуги между <code>param1</code> и <code>param3</code>.
+      <br/>Существуют <code>param1</code> и <code>param3</code>, известные <code>ScAddr</code> sc-элементов. Тип Arc <code>_param2</code> должен быть переменным.
     </td>
   </tr>
   <tr>
     <td>a_a_f</td>
     <td>
-      <strong>Graphical representation</strong>
+      <strong>Графическое представление</strong>
       <br/><scg src="../images/templates/template_triple_a_a_f_example.gwf"></scg>
-      <br/><strong>Equal C++ code</strong>
+      <br/><strong>Соответствующий код на C++</strong>
       <br/>
 <pre><code class="cpp">
 ScTemplate templ;
@@ -105,8 +107,8 @@ templ.Triple(
   param3
 );
 </code></pre>
-      <br/>This triple sc-template using to traverse incoming sc-connectors to specified sc-element.
-      <br/>There <code>param3</code> is a known sc-address of sc-element. You can use any type of <code>_param1</code> (including sc-connectors) depending on construction you want to find. But <code>_param2</code> should be any type of variable connector.
+      <br/>Этот трехэлементный sc-шаблон используется для перемещения входящих sc-коннекторов к указанному sc-элементу.
+      <br/>Здесь <code>param3</code> - это известный sc-адрес sc-элемента. Вы можете использовать любой тип <code>_param1</code> (включая sc-коннекторы) в зависимости от конструкции, которую вы хотите найти. Но <code>_param2</code> должен быть переменным коннектором любого типа.
     </td>
   </tr>
 </table>
