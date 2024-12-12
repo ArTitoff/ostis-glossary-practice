@@ -426,8 +426,8 @@ context.BuildTemplate(templ, templAddr);
 
 ## **ScTemplateParams**
 
-You can replace existing sc-variables in sc-templates by your ones. To provide different replacements for sc-variables 
-in different cases there is class `ScTemplateParams`. It stores a map between sc-variables and specified values (replacements).
+Вы можете заменить существующие sc-переменные в sc-шаблонах на свои собственные. Для обеспечения различных замен sc-переменных
+в разных случаях существует класс ScTemplateParams. Он хранит сопоставление между sc-переменными и указанными значениями (заменами).
 
 ```cpp
 ...
@@ -437,51 +437,51 @@ ScTemplateParams params;
 
 ### **Add**
 
-You can add replacement for sc-variable by specifying system identifier of this sc-variable if sc-template is built from
-SCs-code.
+Вы можете добавить замену для sc-переменной, указав системный идентификатор этой sc-переменной, если sc-шаблон создан на основе
+SCs-кода.
 
 ```cpp
 ...
-// Describe your sc-template on SCs-code.
+// Опишите свой sc-шаблон в SCs-коде.
 sc_char const * data = 
   "_set"
   "  _<- concept_set;"
   "  _<- concept_binary_set;;";
 
-// Generate replacement in sc-memory.
+// Сгенерировать замену в sc-памяти.
 ScAddr const & setAddr = context.GenerateNode(ScType::ConstNode);
-// Also you can find some replacement from sc-memory.
+// Также вы можете найти какую-нибудь замену из sc-memory.
 
-// Define replacements for sc-variables in sc-template.
+// Определите замены для sc-переменных в sc-шаблоне.
 ScTemplateParams params;
 params.Add("_set", setAddr);
 
-// Build program object by this sc-template, specifying replacements.
+// Создайте программный объект по этому sc-шаблону, указав замены.
 ScTemplate templ;
 context.BuildTemplate(templ, data, params);
 ...
 ```
 
-Or you can add replacement for sc-variable by specifying sc-address of this sc-variable if sc-template is built from 
-sc-address of sc-structure in sc-memory.
+Или вы можете добавить замену для sc-переменной, указав sc-адрес этой sc-переменной, если sc-шаблон создан на основе
+sc-адреса sc-структуры в sc-памяти.
 
 ```cpp
 ...
-// Find by system identifier your sc-template in sc-memory.
+// Найдите по системному идентификатору ваш sc-шаблон в sc-памяти.
 ScAddr const & templAddr = context.SearchElementBySystemIdentifier("my_template");
 
-// Find by system identifier sc-address of sc-variable in your sc-template.
+// Найдите по системному идентификатору sc-адрес sc-переменной в вашем sc-шаблоне.
 ScAddr const & setVarAddr = context.SearchElementBySystemIdentifier("_set");
 
-// Generate replacement in sc-memory.
+// Сгенерировать замену в sc-памяти.
 ScAddr const & setAddr = context.GenerateNode(ScType::ConstNode);
-// Also you can find some replacement from sc-memory.
+// Также вы можете найти какую-нибудь замену из sc-memory.
 
-// Define replacements for sc-variables in sc-template.
+// Определите замены для sc-переменных в sc-шаблоне.
 ScTemplateParams params;
 params.Add(setVarAddr, setAddr);
 
-// Build program object by this sc-template, specifying replacements.
+// Создайте программный объект по этому sc-шаблону, указав замены.
 ScTemplate templ;
 context.BuildTemplate(templ, templAddr, params);
 ...
