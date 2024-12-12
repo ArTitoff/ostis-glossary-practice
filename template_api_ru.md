@@ -330,7 +330,7 @@ templ.Triple(
 
 ### **HasReplacement**
 
-To check that sc-template has an aliased sc-element you can use the method `HasReplacement`.
+Чтобы проверить, что sc-шаблон содержит псевдоним sc-элемента, вы можете использовать метод `HasReplacement`.
 
 ```cpp
 ...
@@ -341,14 +341,14 @@ templ.Triple(
   ScType::VarNode >> "_x"
 );
 bool const hasAliasX = templ.HasReplacement("_x");
-// The value of `hasAliasX` be equal to `true`.
+// Значение `hasAliasX` должно быть равно `true`.
 ...
 ```
 
 ### **Size**
 
-To get count of triples in sc-template, use the method `Size`. It may be useful if your program can choose optimal for 
-manipulating sc-template.
+Чтобы получить количество троек в sc-шаблоне, используйте метод "Size". Это может быть полезно, если ваша программа может выбрать оптимальный для
+работы sc-шаблон.
 
 ```cpp
 ScTemplate templ;
@@ -364,65 +364,65 @@ templ.Triple(
 );
 
 size_t const tripleCount = templ.Size();
-// The triple count must be equal to `2`.
+// Количество троек должно быть рано `2`.
 ...
 ```
 
 ### **IsEmpty**
 
-If you need sc-template to be empty you don't have to add any constructions into it. But you should know
-that result of generation by this sc-template is always `true` and result of searching by this sc-template is always
-`false`. To check that sc-template is empty use the method `IsEmpty`.
+Если вам нужно, чтобы sc-шаблон был пустым, вам не нужно добавлять в него какие-либо конструкции. Но вы должны знать
+, что результат генерации по этому sc-шаблону всегда "true", а результат поиска по этому sc-шаблону всегда
+`false`. Чтобы проверить, что sc-шаблон пуст, используйте метод `isEmpty`.
 
 ```cpp
 ...
 ScTemplate templ;
 bool const isEmpty = templ.IsEmpty();
-// The value of `isEmpty` be equal to `true`.
+// Значение `isEmpty` должно быть равно `true`.
 ...
 ```
 
 ## **ScTemplateBuild**
 
-Also, you can build sc-templates using [SCs-code](../../../../scs/scs.md).
+Кроме того, вы можете создавать sc-шаблоны, используя [SCs-code](../../../../scs/scs.md).
 
 ```cpp
 ...
-// Describe your sc-template in SCs-code.
+// Опишите свой sc-шаблон в SCs-коде.
 sc_char const * data = 
   "_set"
   "  _<- concept_set;"
   "  _<- concept_binary_set;;";
 
-// Build program object by this sc-template.
+// Создайте программный объект по этому sc-шаблону.
 ScTemplate templ;
 context.BuildTemplate(templ, data);
 ...
 ```
 
 !!! note
-    Don't use result value, it doesn't mean anything.
+    Не используйте результирующее значение, оно ничего не значит.
 
-During sc-template building all constants will be resolved by their system identifier (in
-example: `concept_set`, `concept_binary_set`), so in result `templ` will contain sc-template:
+При построении sc-шаблона все константы будут определены по их системному идентификатору (
+например, `concept_set`, `concept_binary_set`), поэтому в результате `templ` будет содержать sc-шаблон:
 
 <scg src="../images/templates/template_example_2.gwf"></scg>
 
-Or you can it by specifying valid sc-address of some sc-template in sc-memory.
+Или вы можете сделать это, указав действительный sc-адрес некоторого sc-шаблона в sc-памяти.
 
 ```cpp
 ...
-// Find by system identifier your sc-template in sc-memory.
+// Найдите по системному идентификатору ваш sc-шаблон в sc-памяти.
 ScAddr const & templAddr = context.SearchElementBySystemIdentifier("my_template");
 
-// Build program object by this sc-template.
+// Создайте программный объект по этому sc-шаблону.
 ScTemplate templ;
 context.BuildTemplate(templ, templAddr);
 ...
 ```
 
 !!! note
-    Don't use result value, it doesn't mean anything.
+    Не используйте результирующее значение, оно ничего не значит.
 
 ## **ScTemplateParams**
 
