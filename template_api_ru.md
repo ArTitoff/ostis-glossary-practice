@@ -588,7 +588,7 @@ bool replExist = result.Get("_y", setAddr);
 
 ### **Get**
 
-Если вы хотите ловить исключения, если нет замен по указанному системному идентификатору или sc-адресу sc-переменной
+Если вы хотите перехватывать исключения, если нет замен по указанному системному идентификатору или sc-адресу sc-переменной
 sc-шаблона, используйте метод `Get` и получите замену в результате этого метода. Тогда этот метод выдаст 
 `utils::ExceptionInvalidParams` с описанием ошибки.
 
@@ -705,13 +705,12 @@ bool const isFoundByTemplate = context.SearchByTemplate(templ, result);
 
 ## **ScTemplateSearchResult**
 
-It is a class that stores in information about sc-constructions represented in `ScTemplateResultItem`.
-An object of class `ScTemplateSearchResult` can be referred to a vector of objects of class `ScTemplateResultItem`.
+Это класс, который хранит информацию о sc-конструкциях, представленных в `ScTemplateResultItem`.
+Объект класса `ScTemplateSearchResult` может быть отнесен к вектору объектов класса `ScTemplateResultItem`.
 
 ### **Safe Get**
 
-To get object of class `ScTemplateResultItem` you can use the method `Get`. If you want to get objects safely, use the
-method `Get` and provide `ScTemplateResultItem` as out parameter in this method.
+Чтобы получить объект класса "ScTemplateResultItem", вы можете использовать метод "Get". Если вы хотите безопасно получать объекты, используйте метод "Get` и укажите "ScTemplateResultItem` в качестве параметра out в этом методе.
 
 ```cpp
 ...
@@ -721,24 +720,23 @@ templ.Triple(
   ScType::VarPermPosArc,
   ScType::VarNode >> "_x"
 );
-// There is one sc-construction that is isomorphic this sc-template.
+// Существует одна sc-конструкция, которая изоморфна этому sc-шаблону.
 
 ScTemplateSearchResult result;
 bool const isFoundByTemplate = context.SearchByTemplate(templ, result);
 
 ScTemplateResultItem item;
 bool constrExist = result.Get(0, item);
-// The value of `constrExist` be equal to `true`.
+// Значение `constrExist` должно быть равно `true`.
 
 constrExist = result.Get(1, item);
-// The value of `constrExist` be equal to `false` and item is not valid.
+// Значение `constrExist` должно быть равно `false`, и элемент не является действительным.
 ...
 ```
 
 ### **Get**
 
-If you want to catch exceptions use the method `Get` and get result as return value. If there is no sc-construction with 
-specified index this method will throw the exception utils::ExceptionInvalidParams with description of the error.
+Если вы хотите перехватывать исключения, используйте метод `Get` и получите результат в качестве возвращаемого значения. Если нет sc-конструкции с указанным индексом, этот метод выдаст исключение utils::ExceptionInvalidParams с описанием ошибки.
 
 ```cpp
 ...
@@ -748,23 +746,23 @@ templ.Triple(
   ScType::VarPermPosArc,
   ScType::VarNode >> "_x"
 );
-// There is one sc-construction that is isomorphic this sc-template.
+// Существует одна sc-конструкция, которая изоморфна этому sc-шаблону.
 
 ScTemplateSearchResult result;
 bool const isFoundByTemplate = context.SearchByTemplate(templ, result);
 
 ScTemplateResultItem item = result.Get(0);
-// It is a valid item.
+// Это действительный элемент.
 
 item = result.Get(1);
-// It throws `utils::ExceptionInvalidParams`.
+// Он выдает `utils::ExceptionInvalidParams`.
 ...
 ```
 
 ### **operator[]**
 
-Also, you can use the method `operator[]` to do this. If there is no sc-construction with specified index this method 
-will throw the exception utils::ExceptionInvalidParams with description of the error.
+Также для этого можно использовать метод `operator[]`. Если нет sc-конструкции с указанным индексом, этот метод
+выдаст исключение utils::ExceptionInvalidParams с описанием ошибки.
 
 ```cpp
 ...
@@ -774,22 +772,22 @@ templ.Triple(
   ScType::VarPermPosArc,
   ScType::VarNode >> "_x"
 );
-// There is one sc-construction that is isomorphic this sc-template.
+// Существует одна sc-конструкция, которая изоморфна этому sc-шаблону.
 
 ScTemplateSearchResult result;
 bool const isFoundByTemplate = context.SearchByTemplate(templ, result);
 
 ScTemplateResultItem item = result[0];
-// It is a valid item.
+// Это действительный элемент.
 
 item = result[1];
-// It throws `utils::ExceptionInvalidParams`.
+// Он выдает `utils::ExceptionInvalidParams`.
 ...
 ```
 
 ### **Size**
 
-To get count of found sc-constructions by sc-template you can use the method `Size`.
+Чтобы получить количество найденных sc-конструкций по sc-шаблону, вы можете использовать метод `Size`.
 
 ```cpp
 ...
@@ -799,19 +797,19 @@ templ.Triple(
   ScType::VarPermPosArc,
   ScType::VarNode >> "_x"
 );
-// There is one sc-construction that is isomorphic this sc-template.
+// Существует одна sc-конструкция, которая изоморфна этому sc-шаблону.
 
 ScTemplateSearchResult result;
 bool const isFoundByTemplate = context.SearchByTemplate(templ, result);
 
 size_t const count = result.Size();
-// The value of `count` be equal to `1`.
+// Значение параметра `count" должно быть равно `1`.
 ...
 ```
 
 ### **IsEmpty**
 
-To check if found result is empty use the method `IsEmpty`.
+Чтобы проверить, является ли найденный результат пустым, используйте метод `isEmpty`.
 
 ```cpp
 ...
@@ -821,19 +819,19 @@ templ.Triple(
   ScType::VarPermPosArc,
   ScType::VarNode >> "_x"
 );
-// There is one sc-construction that is isomorphic this sc-template.
+// Существует одна sc-конструкция, которая изоморфна этому sc-шаблону.
 
 ScTemplateSearchResult result;
 bool const isFoundByTemplate = context.SearchByTemplate(templ, result);
 
 bool const count = result.IsEmpty();
-// The value of `count` be equal to `false`.
+// Значение `count` должно быть равно `false`.
 ...
 ```
 
 ### **Clear**
 
-To clear all information about found sc-constructions use the method `Clear`.
+Чтобы очистить всю информацию о найденных sc-конструкциях, используйте метод "Очистить`.
 
 ```cpp
 ...
@@ -843,19 +841,19 @@ templ.Triple(
   ScType::VarPermPosArc,
   ScType::VarNode >> "_x"
 );
-// There is one sc-construction that is isomorphic this sc-template.
+// Существует одна sc-конструкция, которая изоморфна этому sc-шаблону.
 
 ScTemplateSearchResult result;
 bool const isFoundByTemplate = context.SearchByTemplate(templ, result);
 
 result.Clear();
-// After that `result` does not contain any information about sc-constructions.
+// После этого "результат" не содержит никакой информации о sc-конструкциях.
 ...
 ```
 
 ### **ForEach**
 
-To iterate all program objects of found sc-constructions by sc-template you can use for-each cycle.
+Чтобы перебрать все объекты программы, найденные в sc-конструкциях по sc-шаблону, вы можете использовать цикл for-each.
 
 ```cpp
 ...
@@ -865,7 +863,7 @@ templ.Triple(
   ScType::VarPermPosArc,
   ScType::VarNode >> "_x"
 );
-// There is one sc-construction that is isomorphic this sc-template.
+// Существует одна sc-конструкция, которая изоморфна этому sc-шаблону.
 
 ScTemplateSearchResult result;
 bool const isFoundByTemplate = context.SearchByTemplate(templ, result);
@@ -873,12 +871,12 @@ bool const isFoundByTemplate = context.SearchByTemplate(templ, result);
 for (size_t i = 0; i < result.Size(); ++i)
 {
   ScTemplateResultItem const & item = result.Get(i);
-  // Implement logic to handle found sc-constructions.
+// Реализовать логику для обработки найденных sc-конструкций.
 }
 ...
 ```
 
-Or you can use the method `ForEach` to do this.
+Или вы можете использовать метод `ForEach` для этого.
 
 ```cpp
 ...
@@ -888,21 +886,20 @@ templ.Triple(
   ScType::VarPermPosArc,
   ScType::VarNode >> "_x"
 );
-// There is one sc-construction that is isomorphic this sc-template.
+// Существует одна sc-конструкция, которая изоморфна этому sc-шаблону.
 
 ScTemplateSearchResult result;
 bool const isFoundByTemplate = context.SearchByTemplate(templ, result);
 
 result.ForEach([](ScTemplateResultItem const & item) {
-  // Implement logic to handle found sc-constructions.
+  // Реализовать логику для обработки найденных sc-конструкций.
 });
 ...
 ```
 
 ## **SearchByTemplateInterruptibly**
 
-This method searches constructions by isomorphic sc-template and pass found sc-constructions to `callback` 
-lambda-function. Lambda-function `callback` must return a request command value to manage sc-template search:
+Этот метод ищет конструкции по изоморфному sc-шаблону и передает найденные sc-конструкции в `callback` лямбда-функцию. `callback` лямбда-функция должна возвращать значение команды запроса для управления поиском sc-шаблона:
 
 - ScTemplateSearchRequest::CONTINUE,
 - ScTemplateSearchRequest::STOP,
@@ -910,8 +907,7 @@ lambda-function. Lambda-function `callback` must return a request command value 
 
 When ScTemplateSearchRequest::CONTINUE returns, sc-template search will be continued. If ScTemplateSearchRequest::STOP 
 or ScTemplateSearchRequest::ERROR returns, then sc-template search stops. If sc-template search stopped by 
-ScTemplateSearchRequest::ERROR, then SearchByTemplateInterruptibly thrown utils::ExceptionInvalidState. If `filterCallback` 
-passed, then all found sc-constructions triples are filtered by `filterCallback` condition.
+ScTemplateSearchRequest::ERROR, then SearchByTemplateInterruptibly thrown utils::ExceptionInvalidState. If `filterCallback` passed, then all found sc-constructions triples are filtered by `filterCallback` condition.
 
 ```cpp
 ...
