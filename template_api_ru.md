@@ -295,9 +295,7 @@ templ.Triple(
 ```
 
 В коде вы можете увидеть конструкцию "ScType::VarNode >> "_set"" - это имя для sc-элемента sc-шаблона.
-Это позволяет задать псевдоним для указанного sc-элемента в sc-шаблоне и использовать его много раз в разных тройках. Вы можете видеть,
-что во второй тройке мы используем этот псевдоним ""_set"`. Это означает, что нам нужно поместить результат поиска из
-первой тройки во вторую. Итак, вторая тройка - это тройка в стиле `f_a_f`.
+Это позволяет задать псевдоним для указанного sc-элемента в sc-шаблоне и использовать его много раз в разных тройках. Вы можете видеть, что во второй тройке мы используем этот псевдоним ""_set"`. Это означает, что нам нужно поместить результат поиска из первой тройки во вторую. Итак, вторая тройка - это тройка в стиле `f_a_f`.
 
 
 Итак, если вы хотите использовать один и тот же sc-элемент "_x" в разных тройках, и вы не знаете, что это за "ScAddr", тогда просто используйте два
@@ -347,8 +345,7 @@ bool const hasAliasX = templ.HasReplacement("_x");
 
 ### **Size**
 
-Чтобы получить количество троек в sc-шаблоне, используйте метод "Size". Это может быть полезно, если ваша программа может выбрать оптимальный для
-работы sc-шаблон.
+Чтобы получить количество троек в sc-шаблоне, используйте метод "Size". Это может быть полезно, если ваша программа может выбрать оптимальный для работы sc-шаблон.
 
 ```cpp
 ScTemplate templ;
@@ -388,7 +385,7 @@ bool const isEmpty = templ.IsEmpty();
 
 ```cpp
 ...
-// Опишите свой sc-шаблон в SCs-коде.
+// Напишите свой sc-шаблон на SCs-коде.
 sc_char const * data = 
   "_set"
   "  _<- concept_set;"
@@ -426,8 +423,7 @@ context.BuildTemplate(templ, templAddr);
 
 ## **ScTemplateParams**
 
-Вы можете заменить существующие sc-переменные в sc-шаблонах на свои собственные. Для обеспечения различных замен sc-переменных
-в разных случаях существует класс ScTemplateParams. Он хранит сопоставление между sc-переменными и указанными значениями (заменами).
+Вы можете заменить существующие sc-переменные в sc-шаблонах на свои собственные. Для обеспечения различных замен sc-переменных в разных случаях существует класс `ScTemplateParams`. Он хранит связь между sc-переменными и указанными значениями (заменами).
 
 ```cpp
 ...
@@ -437,8 +433,7 @@ ScTemplateParams params;
 
 ### **Add**
 
-Вы можете добавить замену для sc-переменной, указав системный идентификатор этой sc-переменной, если sc-шаблон создан на основе
-SCs-кода.
+Вы можете добавить замену для sc-переменной, указав системный идентификатор этой sc-переменной, если sc-шаблон создан на основе SCs-кода.
 
 ```cpp
 ...
@@ -489,88 +484,86 @@ context.BuildTemplate(templ, templAddr, params);
 
 ### **Get**
 
-Sometimes you need to check if there is replacement in params yet. You can do it using the method `Get`. It works with
-system identifiers and sc-addresses of sc-variables also.
+Иногда вам нужно проверить, есть ли замена в параметрах. Вы можете сделать это, используя метод `Get`. Он также работает с
+системными идентификаторами и sc-адресами sc-переменных.
 
 ```cpp
 ...
-// Generate replacement in sc-memory.
+// Сгенерировать замену в sc-памяти.
 ScAddr const & setAddr = context.GenerateNode(ScType::ConstNode);
-// Also you can find some replacement from sc-memory.
+// Также вы можете найти какую-нибудь замену из sc-memory.
 
-// Define replacements for sc-variables in sc-template.
+// Определите замены для sc-переменных в sc-шаблоне.
 ScTemplateParams params;
 params.Add("_set", setAddr);
 
 ScAddr const & replAddr = params.Get("_set");
-// The value of `replAddr` be equal to value of `setAddr`.
+// Значение `replAddr` должно быть равно значению `setAddr`.
 ...
 ```
 
 ```cpp
 ...
-// Find by system identifier sc-address of sc-variable in your sc-template.
+// Найдите по системному идентификатору sc-адрес sc-переменной в вашем sc-шаблоне.
 ScAddr const & setVarAddr = context.SearchElementBySystemIdentifier("_set");
 
-// Generate replacement in sc-memory.
+// Сгенерировать замену в sc-памяти.
 ScAddr const & setAddr = context.GenerateNode(ScType::ConstNode);
-// Also you can find some replacement from sc-memory.
+// Также вы можете найти какую-нибудь замену из sc-memory.
 
-// Define replacements for sc-variables in sc-template.
+// Определите замены для sc-переменных в sc-шаблоне.
 ScTemplateParams params;
 params.Add(setVarAddr, setAddr);
 
 ScAddr const & replAddr = params.Get(setVarAddr);
-// The value of `replAddr` be equal to value of `setAddr`.
+// Значение `replAddr` должно быть равно значению `setAddr`.
 ...
 ```
 
 !!! note
-    If there are no replacements by specified system identifier or sc-address of sc-variable of sc-template then the 
-    method `Get` will return empty sc-address.
+    Если нет замен по указанному системному идентификатору или sc-адресу sc-переменной sc-шаблона, то
+    метод `Get` вернет пустой sc-адрес.
 
 ### **IsEmpty**
 
-To check that replacements map is empty use the method `IsEmpty`.
+Чтобы проверить, что набор замен пуст, используйте метод `IsEmpty`.
 
 ```cpp
 ...
 ScTemplateParams params;
 bool const isEmpty = params.IsEmpty();
-// The value of `isEmpty` be equal to `true`.
+// Значение `isEmpty` должно быть равно `true`.
 ...
 ```
 
 ## **GenerateByTemplate**
 
-Use sc-template to generate graphs in sc-memory and get replacements from result.
+Используйте sc-шаблон для создания графов в sc-памяти и получения замен из результата.
 
 ```cpp
 ...
-// Specify sc-template for searching sc-constructions in sc-memory.
-// You can use `ScTemplate` methods or method ScTemplateBuild to translate 
-// sc-template from SCs-code or sc-memory into program representation.
+// Укажите sc-шаблон для поиска sc-конструкций в sc-памяти.
+// Вы можете использовать методы `ScTemplate` или метод ScTemplateBuild для преобразования 
+// sc-шаблона из SCs-кода или sc-памяти в программное представление.
 ScTemplateResultItem result;
 context.GenerateByTemplate(templ, result);
-// Sc-elements sc-addresses of generated sc-construction may be gotten from 
+// Sc-адреса sc-элементов сгенерированной sc-конструкции могут быть получены из 
 // `result`.
 ...
 ```
 
 !!! note 
-    Remember, that sc-template must contain only valid sc-address of sc-elements and all sc-connectors in it must be
-    sc-variables. Otherwise, this method can throw `utils::ExceptionInvalidParams` with description of this error.
+    Помните, что sc-шаблон должен содержать только действительные sc-адреса sc-элементов, а все sc-коннекторы в нем должны 
+    быть sc-переменными.
+    В противном случае этот метод может выдать `utils::ExceptionInvalidParams` с описанием этой ошибки.
 
 ## **ScTemplateResultItem**
 
-It is a class that stores information about sc-construction.
+Это класс, который хранит информацию о sc-конструкции.
 
 ### **Safe Get**
 
-You can get sc-addresses of sc-elements of generated sc-construction by system identifier or sc-address of sc-variable 
-in sc-template. To do it safely (without throwing exceptions if there are no replacements by specified system identifier 
-or sc-address of sc-variable of sc-template) use the methods `Get` and provide result of replacement as out parameter in
-this method.
+Вы можете получить sc-адреса sc-элементов сгенерированной sc-конструкции по системному идентификатору или sc-адресу sc-переменной в sc-шаблоне. Чтобы сделать это безопасно (без выбрасывания исключений, если нет замен по указанному системному идентификатору или sc-адресу sc-переменной sc-шаблона), используйте методы `Get` и укажите результат замены в качестве параметра out в этом методе.
 
 ```cpp
 ...
@@ -586,18 +579,18 @@ context.GenerateByTemplate(templ, result);
 
 ScAddr setAddr;
 bool replExist = result.Get("_x", setAddr);
-// The value of `replExist` be equal to `true`.
+// Значение `replExist` должно быть равно `true`.
 
 bool replExist = result.Get("_y", setAddr);
-// The value of `replExist` be equal to `false`.
+// Значение `replExist` должно быть равно `false`.
 ...
 ```
 
 ### **Get**
 
-If you want to catch exceptions, if there are no replacements by specified system identifier or sc-address of sc-variable 
-of sc-template, use the method `Get` and get replacement as result of this method. Then this method will throw 
-`utils::ExceptionInvalidParams` with description of error.
+Если вы хотите ловить исключения, если нет замен по указанному системному идентификатору или sc-адресу sc-переменной
+sc-шаблона, используйте метод `Get` и получите замену в результате этого метода. Тогда этот метод выдаст 
+`utils::ExceptionInvalidParams` с описанием ошибки.
 
 ```cpp
 ...
@@ -614,14 +607,14 @@ context.GenerateByTemplate(templ, result);
 ScAddr setAddr = result.Get("_x");
 
 setAddr = result.Get("_y", setAddr);
-// It will throw the exception `utils::ExceptionInvalidParams`.
+// Это вызовет исключение "utils::ExceptionInvalidParams`.
 ...
 ```
 
 ### **Has**
 
-To check that there is replacement by specified system identifier or sc-address of sc-variable of sc-template use the
-method `Has`.
+Чтобы проверить, есть ли замена на указанный системный идентификатор или sc-адрес sc-переменной sc-шаблона, используйте
+метод `Has`.
 
 ```cpp
 ...
@@ -642,9 +635,7 @@ bool const replExist = result.Has("_x");
 
 ### **operator[]**
 
-To get all replacements in result you can use the `operator[]`. It returns replacement by index of sc-variable in 
-sc-template. If there is no sc-variable with specified index this method will throw the exception 
-`utils::ExceptionInvalidParams` with description of the error.
+Чтобы получить все замены из результата, вы можете использовать `operator[]`. Он возвращает замену по индексу sc-переменной в sc-шаблоне. Если нет sc-переменной с указанным индексом, этот метод выдаст исключение `utils::ExceptionInvalidParams` с описанием ошибки.
 
 ```cpp
 ...
@@ -659,13 +650,13 @@ ScTemplateResultItem result;
 context.GenerateByTemplate(templ, result);
 
 ScAddr const & setAddr = result[2];
-// It is equal to `result.Get("_x")`.
+// Оно равно `result.Get("_x")`.
 ...
 ```
 
 ### **Size**
 
-If you want to iterate all replacement in the result you need to know size of this result.
+Если вы хотите перебрать все замены в результате, вам нужно знать размер этого результата.
 
 ```cpp
 ...
@@ -679,40 +670,38 @@ templ.Triple(
 ScTemplateResultItem result;
 context.GenerateByTemplate(templ, result);
 
-// Iterate by all replacements in result.
+// Выполнить итерацию по всем заменам в результате.
 for (size_t i = 0; i < result.Size(); ++i)
 {
   ScAddr const & addr = result[i];
-  // Implement your code to handle replacements.
+// Реализуйте свой код для обработки замен.
 }
 ...
 ```
 
 !!! note
-    The method `Size` returns summary count of indexes of replacements in each triple in sc-template. If there are 
-    `2` triples in sc-template, then there are `2 * 3 = 6` different indexes of replacements in sc-template.
+    Метод `Size` возвращает итоговое количество индексов замен в каждой тройке в sc-шаблоне. Если есть 
+    `2` тройки в sc-шаблоне, тогда в sc-шаблоне есть `2 * 3 = 6` разных индексов замен.
 
 ## **SearchByTemplate**
 
-You can search sc-construction in sc-memory by sc-templates. This search refers to isomorphic search by graph-template.
-Search algorithm trying to find all possible variants of specified construction. It uses any constants (available
-sc-addresses from parameters to find equal sc-constructions in sc-memory).
+Вы можете выполнить поиск sc-конструкции в sc-памяти при помощи sc-шаблонов. Этот поиск относится к изоморфному поиску по графовому шаблону. Алгоритм поиска пытается найти все возможные варианты указанной конструкции. Он использует любые константы (доступные sc-адреса из параметров для поиска эквивалентных sc-конструкций в sc-памяти).
 
 ```cpp
 ...
-// Specify sc-template for searching sc-constructions in sc-memory.
-// You can use `ScTemplate` methods or method ScTemplateBuild to translate 
-// sc-template from SCs-code or sc-memory into program representation.
+// Укажите sc-шаблон для поиска sc-конструкций в sc-памяти.
+// Вы можете использовать методы `ScTemplate` или метод ScTemplateBuild для преобразования 
+// sc-шаблона из SCs-кода или sc-памяти в программное представление.
 ScTemplateSearchResult result;
 bool const isFoundByTemplate = context.SearchByTemplate(templ, result);
-// Program representation of sc-constructions in `ScTemplateResultItem` 
-// may be gotten from `result`.
+// Программное представление sc-конструкций в `ScTemplateResultItem` 
+// может быть получено из `result`.
 ...
 ```
 
 !!! note 
-    Remember, that sc-template must contain only valid sc-address of sc-elements and all sc-connectors in it must be
-    sc-variables. Otherwise, this method can throw `utils::ExceptionInvalidParams` with description of this error.
+    Помните, что sc-шаблон должен содержать только допустимые sc-адреса sc-элементов, а все sc-коннекторы в нем должны быть
+    sc-переменными. В противном случае этот метод может выдать `utils::ExceptionInvalidParams` с описанием этой ошибки.
 
 ## **ScTemplateSearchResult**
 
