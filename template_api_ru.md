@@ -905,9 +905,7 @@ result.ForEach([](ScTemplateResultItem const & item) {
 - ScTemplateSearchRequest::STOP,
 - ScTemplateSearchRequest::ERROR.
 
-When ScTemplateSearchRequest::CONTINUE returns, sc-template search will be continued. If ScTemplateSearchRequest::STOP 
-or ScTemplateSearchRequest::ERROR returns, then sc-template search stops. If sc-template search stopped by 
-ScTemplateSearchRequest::ERROR, then SearchByTemplateInterruptibly thrown utils::ExceptionInvalidState. If `filterCallback` passed, then all found sc-constructions triples are filtered by `filterCallback` condition.
+Когда возвращается ScTemplateSearchRequest::CONTINUE, поиск sc-шаблона будет продолжен. Если возвращается ScTemplateSearchRequest::STOP или ScTemplateSearchRequest::ERROR, то поиск sc-шаблона останавливается. Если поиск sc-шаблона остановлен из-за ScTemplateSearchRequest::ERROR, то выбрасывается исключение utils::ExceptionInvalidState. Если передан `filterCallback`, то все найденные тройки sc-конструкций фильтруются по условию `filterCallback`.
 
 ```cpp
 ...
@@ -940,7 +938,7 @@ m_context->SearchByTemplateInterruptibly(templ, [&context](
 
 --- 
 
-## **Frequently Asked Questions**
+## **Часто задаваемые вопросы**
 
 - [What's the best way to describe sc-templates for search? By sc-template C++ API or on the SC-code?](#what-is-the-best-way-to-describe-sc-templates-for-search-by-sc-template-c-api-or-on-the-sc-code)
 - [Which is better: searching by sc-template or by iterator?](#which-is-better-searching-by-sc-template-or-by-iterator)
