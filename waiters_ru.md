@@ -4,122 +4,119 @@
     Это верно только для версий sc-machine, которые >= 0.10.0.
 --- 
 
-The **C++ Waiters API** provides functionality for implementing wait conditions within agent workflows. This section covers how to create waiters that pause agent execution until specified conditions are met or events are triggered. It is particularly useful for synchronizing actions across multiple agents or ensuring that certain prerequisites are fulfilled before proceeding with tasks.
+**C++ Waiters API** предоставляет функциональные возможности для реализации условий ожидания в рабочих процессах агента. В этом разделе описывается, как создать waiters, которые приостанавливают выполнение агента до тех пор, пока не будут выполнены указанные условия или не будут запущены события. Это особенно полезно для синхронизации действий нескольких агентов или обеспечения выполнения определенных предварительных условий перед началом выполнения задач.
 
-!!! note
-    To include this API provide `#include <sc-memory/sc_waiter.hpp>` in your hpp source.
+!!! примечание
+    Чтобы подключить этот API, укажите "#include <sc-memory/sc_waiter.hpp>` в вашем исходном файле hpp.
 
-## **ScWaiter** and **ScConditionWaiter**
+## **ScWaiter** и **ScConditionWaiter**
 
-This type of objects is used to wait until some event emits until the maximum waiting time expires. It is usually used, when one of an `ScAgent` wants to wait result of another one. There are next kind of `ScWaiter` objects:
+Этот тип объектов используется для ожидания, пока не произойдет какое-либо событие, пока не истечет максимальное время ожидания. Обычно он используется, когда один из `ScAgent` хочет дождаться результата другого. Существует следующий тип объектов `ScWaiter`:
 
-* `ScWaiter` locks run flow until simple event emits. You can see the list of these events in the [**C++ Events API**](events.md).
-* `ScConditionWaiter` locks run flow until simple event emits and specified conditional check returns `true`. In other
-  words, this works like an `ScWaiter`, but returns to run flow if special condition function returns `true`. Condition
-  function receives 3 parameters (see [**C++ Events API**](events.md) for more details about them).
+* `ScWaiter` блокирует поток выполнения до тех пор, пока не произойдет простое событие. Вы можете просмотреть список этих событий в [**C++ Events API**](events.md).
+* `ScConditionWaiter` блокирует выполнение потока до тех пор, пока не произойдет простое событие и указанная условная проверка не вернет значение "true". Другими словами, это работает как "ScWaiter", но возвращается к выполнению потока, если функция специального условия возвращает значение `true`. Функция Condition принимает 3 параметра (см. [**C++ Events API**](events.md) для получения более подробной информации о них).
 
 ## **ScWaiter**
 
-To generate object of this class, you should call `CreateEventWaiter` method from object of `ScAgentContext` class. You can't use constructors of `ScWaiter` class, because they are private.
+Чтобы создать объект этого класса, вы должны вызвать метод `CreateEventWaiter` из объекта класса `ScAgentContext`. Вы не можете использовать конструкторы класса `ScWaiter`, так как они являются закрытыми(private).
 
 ```cpp
 ...
-// Generate of find some sc-node and generate waiter to wait until 
-// a sc-connector of the specified type is generated from or to this sc-node.
+// Сгенерировать, чтобы найти некоторый sc-узел и сгенерировать waiter, который будет ждать, пока 
+// sc-коннектор указанного типа не будет сгенерирован из этого sc-узла или для этого sc-узла.
 auto waiter = context.CreateEventWaiter<
   ScEventAfterGenerateConnector<ScType::ConstPermPosArc>>(
     nodeAddr,
     []() -> void
     {
-      // Provide logic here, that should be called at exactly the same time 
-      // when waiter will start to wait for sc-event to occur.
+      // Приведите здесь логику, которая должна вызываться точно в тот момент,
+      // когда waiter начнет ждать появления sc-события.
     });
 ...
 ```
 
-We recommend to use `auto` instead of full type of waiter. In provided example waiter has `std::shared_ptr<ScEventWaiter<ScEventAfterGenerateConnector<ScType::ConstPermPosArc>>>` type.
+Мы рекомендуем использовать `auto` вместо полного типа waiter. В приведенном примере waiter имеет тип `std::shared_ptr<ScEventWaiter<ScEventAfterGenerateConnector<ScType::ConstPermPosArc>>>`.
 
 ### **Wait**
 
-Call this method from object of `ScWaiter` class to wait for sc-event to occur.
+Вызовите этот метод из объекта класса `ScWaiter`, чтобы дождаться наступления sc-события.
 
 ```cpp
-bool const isWaited = waiter.Wait(200); // milliseconds.
-// Here `200` is maximum waiting time for the specified event to occur.
-// The event can happen faster than 200 milliseconds, then the result 
-// will be obtained earlier too.
+bool const isWaited = waiter.Wait(200); // миллисекунды.
+// Здесь "200" - максимальное время ожидания наступления указанного события.
+// Событие может произойти быстрее, чем за 200 миллисекунд, тогда результат 
+// также будет получен раньше.
 ```
 
-By default, this method has default wait time the equals to 5000 milliseconds.
+По умолчанию время ожидания этого метода равно 5000 миллисекундам.
 
-There is also a version of this method with three arguments. You can provide function that will be called after successful completion of waiting for the event to occur, and function that will be called after unsuccessful completion of waiting for the event to occur.
+Существует также версия этого метода с тремя аргументами. Вы можете указать функцию, которая будет вызвана после успешного завершения ожидания наступления события, и функцию, которая будет вызвана после неудачного завершения ожидания наступления события.
 
 ```cpp
 bool const isWaited = waiter.Wait(
   200, 
   []() -> void
   {
-    // Handle if waiter waited for sc-event to occur.
+    // Обработайте случай, если waiter дождался появления sc-события.
   },
   []() -> void
   {
-    // Handle if waiter didn't wait for sc-event to occur.
+    // Обработайте случай, если waiter не дождался появления sc-события.
   });
 ```
 
 ### **SetOnWaitStartDelegate**
 
-Use this method, when you want to change or provide function that should be called at exactly the same time when waiter will start to wait for sc-event to occur.
+Используйте этот метод, если вы хотите изменить или предоставить функцию, которая должна быть вызвана точно в то же время, когда waiter начнет ожидать наступления sc-события.
 
 ```cpp
 waiter.SetOnWaitStartDelegate([]() -> void
 {
-  // Provide logic of this function here.
+  // Приведите логику этой функции здесь.
 });
 ```
 
 ### **Resolve**
 
-You can tell a waiter to stop waiting.
+Вы можете сказать waiter, чтобы он перестал ждать.
 
 ```cpp
 waiter.Resolve();
 ```
 
-Then the `Wait` method will stop waiting for the specified event to occur.
+Тогда метод `Wait` перестанет ожидать наступления указанного события.
 
 ## **ScConditionWaiter**
 
-This class represents waiter for condition to occur. To generate object of this class, you should call `CreateConditionWaiter` method from object of `ScAgentContext` class. You can't also use constructors of `ScConditionWaiter` class, because they are private.
+Этот класс представляет waiter для условия, которое должно произойти. Чтобы создать объект этого класса, вы должны вызвать метод `CreateConditionWaiter` из объекта класса `ScAgentContext`. Вы также не можете использовать конструкторы класса `ScConditionWaiter`, так как они являются закрытыми(private).
 
 ```cpp
 ...
-// Generate of find some sc-node and generate waiter to wait until 
-// a sc-connector of the specified type is generated from or to this sc-node.
+// Сгенерируйте или найдите какой-нибудь sc-узел и сгенерируйте waiter, который будет ждать, пока
+// не будет сгенерирован sc-коннектор указанного типа от или к этому sc-узлу.
 auto waiter = context.GenerateConditionWaiter<
   ScEventAfterGenerateConnector<ScType::ConstPermPosArc>>(
     nodeAddr,
     []() -> void
     {
-      // Provide logic here, that should be called at exactly the same time 
-      // when waiter will start to wait for sc-event to occur.
+     // Приведите здесь логику, которая должна быть вызвана точно в одно и то же время 
+    // когда waiter начнет ожидать наступления sc-события.
     },
     [](ScEventAfterGenerateConnector<ScType::ConstPermPosArc>
         const & event) -> bool
     {
-      // Check here, that occurred sc-event is sc-event that this waiter 
-      // has been waiting for.
+      // Проверьте здесь, что произошедшее sc-событие - это sc-событие, которого ждал этот waiter. 
     };
 ...
 ```
 
-`ScConditionWaiter` class inherits `ScWaiter` class. You can use all methods of `ScWaiter` class for objects of `ScConditionWaiter` class.
+Класс `ScConditionWaiter` наследует класс `ScWaiter`. Вы можете использовать все методы класса ScWaiter для объектов класса `ScConditionWaiter`.
 
-## **Examples of using waiters**
+## **Примеры использования waiters**
 
-There are some examples of usage for specified `ScWaiter` objects:
+Есть несколько примеров использования для указанных объектов `ScWaiter`:
 
-* Wait input sc-connector into sc-element with `nodeAddr`:
+* Подождите ввода sc-коннектора в sc-элемент с `nodeAddr`:
 
 ```cpp
 auto waiter = context.CreateEventWaiter<
@@ -127,40 +124,39 @@ auto waiter = context.CreateEventWaiter<
 waiter.Wait();
 ```
 
-* Wait input sc-connector into sc-element with `nodeAddr`, with condition:
-
+* Подождите ввода sc-коннектора в sc-элемент с `nodeAddr`, с условием:
 ```cpp
 auto const CheckCallback 
   = [](ScEventAfterGenerateIncomingArc<
     ScType::ConstPermPosArc> const & event)
 {
-  // Check condition here.
-  // Return true or false depending on condition.
+  // Проверьте условие здесь.
+  // Возвращает значение true или false в зависимости от условия.
   return false;
 };
 
 auto waiter = context.CreateConditionWaiter<
   ScEventAfterGenerateIncomingArc<
     ScType::ConstPermPosArc>>(nodeAddr, CheckCallback);
-// Provide wait time value.
-waiter.Wait(10000); // milliseconds.
+// Укажите значение времени ожидания.
+waiter.Wait(10000); // миллисекунды.
 ```
 
-!!! warning
-    All constructors of these classes are private. You should [**C++ Agent context API**](agent_context.md) to generate waiters.
+!!! предупреждение
+   Все конструкторы этих классов являются закрытыми(private). Для создания waiters вам необходимо [**C++ Agent context API**](agent_context.md).
 
 --- 
 
-## **Frequently Asked Questions**
+## **Часто Задаваемые Вопросы**
 
 <!-- no toc -->
-- [Why can't I call the constructor of a waiter for sc-event?](#why-cant-i-call-the-constructor-of-a-waiter-for-sc-event)
-- [Is it possible to represent a waiter in a knowledge base to wait for sc-event to occur?](#is-it-possible-to-represent-a-waiter-in-a-knowledge-base-to-wait-for-sc-event-to-occur)
+- [Почему я не могу вызвать конструктор waiter для sc-event?](#why-cant-i-call-the-constructor-of-a-waiter-for-sc-event)
+- [Можно ли представить waiter в базе знаний для ожидания наступления sc-события?](#is-it-possible-to-represent-a-waiter-in-a-knowledge-base-to-wait-for-sc-event-to-occur)
 
-### **Why can't I call the constructor of a waiter for sc-event?**
+### **Почему я не могу вызвать конструктор waiter для sc-event?**
 
-First of all, it's not safe. We need more checks on input arguments because there are more of them. Secondly, it is correct from the OOP point of view. Constructors should not throw exceptions. Third, it is correct from the point of view of the architecture we use in the sc-machine. The `ScAgentContext` is a facade over all possible objects used by agents.
+Во-первых, это небезопасно. Нам нужно больше проверок входных аргументов, потому что их больше. Во-вторых, это правильно с точки зрения ООП. Конструкторы не должны генерировать исключения. В-третьих, это правильно с точки зрения архитектуры, которую мы используем в sc-машине. ScAgentContext - это внешний вид всех возможных объектов, используемых агентами.
 
-### **Is it possible to represent a waiter in a knowledge base to wait for sc-event to occur?**
+### **Можно ли представить waiter в базе знаний для ожидания наступления sc-события?**
 
-Yes, you can make an agent that will do that.
+Да, вы можете сделать агента, который будет это делать.
