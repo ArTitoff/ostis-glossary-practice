@@ -1,45 +1,45 @@
 # **ScEvent API**
 
-!!! note
-    This is correct for only versions of sc-machine that >= 0.10.0.
+!!! примечание
+    Это верно только для версий sc-machine, которые >= 0.10.0.
 --- 
 
-This API describes how to work with sc-events.
+Этот API описывает, как работать с sc-событиями.
 
-!!! note
-    To include this API provide `#include <sc-memory/sc_event.hpp>` in your hpp source.
+!!! примечание
+    Чтобы подключить этот API, укажите "#include <sc-memory/sc_event.hpp>` в вашем исходном файле hpp.
 
-## **What is event-driven model?**
+## **Что такое событийно-ориентированная модель?**
 
-The sc-machine uses event-driven model to manage processing sc-constructions. The sc-memory stores SC-code constructions, which are graph structures, then any kind of events, occurring in sc-memory, is related to changes in these graph constructions.
+Sc-машина использует событийно-управляемую модель для управления обработкой sc-конструкций. В sc-памяти хранятся конструкции SC-кода, которые представляют собой графовые структуры, тогда любые события, происходящие в sc-памяти, связаны с изменениями в этих графовых конструкциях.
 
-These are methods that generate events: 
+Методы, которые генерируют события:
 
 - `GenerateConnector`, 
 - `EraseElement`,
 - `SetLinkContent`.
 
-They publish events to an event queue without needing to know which consumers will receive them. These components filter and distribute events to appropriate consumers. They manage the flow of events and ensure that they reach the correct destinations. Event consumers are the components that listen for and process events. Event consumers can be modules, agents or something else. See [**FAQ**](#frequently-asked-questions) to find out why it works that way.
+Они публикуют события в очереди событий, не зная, какие пользователи их получат. Эти компоненты фильтруют и распределяют события среди соответствующих пользователей. Они управляют потоком событий и гарантируют, что они дойдут до нужных адресатов. Потребители событий - это компоненты, которые отслеживают и обрабатывают события. Потребителями событий могут быть модули, агенты или что-то еще. Смотрите [**FAQ**](#frequently-asked-questions), чтобы узнать, почему это работает именно так.
 
-Within the OSTIS Technology, events are considered only situations in which relationships have changed or new relationships have been generated, or link content have been changed, or some sc-element have been erased.
+В рамках технологии OSTIS событиями считаются только ситуации, в которых изменились взаимосвязи или были созданы новые взаимосвязи, или содержание ссылок было изменено, или какой-либо sc-элемент был удален.
 
 ## **ScEvent**
 
-The sc-machine provides functionality for subscribing to the following elementary types of sc-events:
+sc-машина предоставляет функциональность для подписки следующих элементарных типов sc-событий:
 
-* `ScElementaryEvent` is base class for all sc-events, it can be used to handle all sc-events for specified sc-element;
-* `ScEventAfterGenerateConnector`, emits each time, when sc-connector from or to specified sc-element is generated;
-* `ScEventAfterGenerateOutgoingArc`, emits each time, when outgoing sc-arc from specified sc-element is generated;
-* `ScEventAfterGenerateIncomingArc`, emits each time, when incoming sc-arc to specified sc-element is generated;
-* `ScEventAfterGenerateEdge`, emits each time, when sc-edge from or to specified sc-element is generated;
-* `ScEventBeforeEraseConnector`, emits each time, when sc-connector from or to specified sc-element is erasing;
-* `ScEventBeforeEraseOutgoingArc`, emits each time, when outgoing sc-arc from specified sc-element is erasing;
-* `ScEventBeforeEraseIncomingArc`, emits each time, when incoming sc-arc to specified sc-element is erasing;
-* `ScEventBeforeEraseEdge`, emits each time, when sc-edge from or to specified sc-element is erasing;
-* `ScEventBeforeEraseElement`, emits, when specified sc-element is erasing;
-* `ScEventBeforeChangeLinkContent`, emits each time, when content of specified sc-link is changing.
+* `ScElementaryEvent` является базовым классом для всех sc-событий, его можно использовать для обработки всех sc-событий для указанного sc-элемента;
+* `ScEventAfterGenerateConnector`, генерируется каждый раз, когда генерируется sc-коннектор от указанного sc-элемента или к нему;
+* `ScEventAfterGenerateOutgoingArc`, генерируется каждый раз, когда генерируется исходящая sc-дуга от указанного sc-элемента;
+* `ScEventAfterGenerateIncomingArc`, генерируется каждый раз, когда генерируется входящая sc-дуга для указанного sc-элемента;
+* `ScEventAfterGenerateEdge`, генерируется каждый раз, когда создается sc-ребро от или к указанному sc-элементу;
+* `ScEventBeforeEraseConnector`, генерируется каждый раз, когда sc-коннектор от указанного sc-элемента или к нему стирается;
+* `ScEventBeforeEraseOutgoingArc`, генерируется каждый раз, когда удаляется исходящая sc-дуга из указанного sc-элемента;
+* `ScEventBeforeEraseIncomingArc`, генерируется каждый раз, когда входящая sc-дуга к указанному sc-элементу удаляется;
+* `ScEventBeforeEraseEdge`, генерируется каждый раз, когда удаляется sc-ребро от указанного sc-элемента или к нему;
+* `ScEventBeforeEraseElement`, испускается, когда указанный sc-элемент удаляется;
+* `ScEventBeforeChangeLinkContent`, срабатывает каждый раз, когда изменяется содержимое указанной sc-ссылки.
 
-The following classes correspond to them:
+Им соответствуют следующие классы:
 
 * `class ScElementaryEvent`;
 * `template <ScType const & connectorType> class ScEventAfterGenerateConnector`;
@@ -53,25 +53,25 @@ The following classes correspond to them:
 * `class ScEventBeforeEraseElement`;
 * `class ScEventBeforeChangeLinkContent`.
 
-!!! note
-    All these sc-events classes are inherited from `ScElementaryEvent` class. `ScElementaryEvent` class is inherited from `ScEvent` class that is an abstract class.
+!!! примечание
+    Все эти классы sc-событий унаследованы от класса `ScElementaryEvent`. Класс `ScElementaryEvent` унаследован от класса `ScEvent`, который является абстрактным классом.
+    
+!!! примечание
+    Типы sc-коннекторов указаны для sc-событий добавления (удаления) sc-дуги (sc-ребра).
+    
+!!! предупреждение
+    Вы не можете создавать объекты этих классов. Все конструкторы этих классов являются закрытыми(private).
 
-!!! note
-    Types of sc-connectors are specified for sc-events of adding (erasing) sc-arc (sc-edge). 
-
-!!! warning
-    You can't generate objects of these classes. All constructors of these classes are private.
-
-!!! warning
-    All objects of sc-event classes are not copyable and not movable.
+!!! предупреждение
+    Все объекты классов sc-event не подлежат копированию и перемещению.
 
 ### **ScElementaryEvent**
 
-This class provides three common methods for all sc-events: `GetUser`, `GetSubscriptionElement` and `GetTriple`.
+Этот класс предоставляет три общих метода для всех sc-событий: `GetUser`, `GetSubscriptionElement` и `GetTriple`.
 
 #### **GetUser**
 
-Use this method to get sc-address of who initiated the current sc-event.
+Используйте этот метод, чтобы получить sc-адрес того, кто инициировал текущее sc-событие.
 
 ```cpp
 ...
@@ -81,7 +81,7 @@ ScAddr const userAddr = event.GetUser();
 
 #### **GetSubscriptionElement**
 
-Each event occurs within a semantic neighbourhood of some sc-element. This sc-element is called sc-event subscription sc-element. In other words, it is an element that is permanently listening for the occurrence of certain sc-events within its neighbourhood. To get it, use this method.
+Каждое событие происходит в семантической окрестности некоторого sc-элемента. Этот sc-элемент называется sc-элементом подписки на sc-событие. Другими словами, это элемент, который постоянно отслеживает возникновение определенных sc-событий в пределах своей окрестности. Чтобы получить его, воспользуйтесь этим методом.
 
 ```cpp
 ...
@@ -91,29 +91,29 @@ ScAddr const subscriptionElement = event.GetSubscriptionElement();
 
 #### **GetTriple**
 
-To get information about sc-elements in initiated sc-event, you can use this method. It returns tuple of three ScAddr. For more information see the table below.
+Чтобы получить информацию о sc-элементах в инициированном sc-событии, вы можете использовать этот метод. Он возвращает кортеж из трех ScAddr. Для получения дополнительной информации смотрите таблицу ниже.
 
 <table width="95%">
   <tr>
-    <th>Class</th>
-    <th>Description</th>
+    <th>Класс</th>
+    <th>Описание</th>
   </tr>
 
   <tr>
   <td><strong>ScEventAfterGenerateConnector</strong></td>
   <td>
       <scg src="../images/events/sc_event_connector.gwf"></scg>
-      <strong>Example C++ code</strong>:
+      <strong>Пример кода на C++</strong>:
       <pre><code class="cpp">
 ...
 auto const [subscriptionElementAddr, connectorAddr, otherAddr] 
   = event.GetTriple();
-// `subscriptionElementAddr` is sc-address of source or 
-// target sc-element (listen it in sc-event).
-// `connectorAddr` is sc-address of generated sc-connector 
-// to or from `subscriptionElementAddr`.
-// `otherAddr` is sc-address of source or target sc-element 
-// of `arcAddr`.
+// `subscriptionElementAddr` — это sc-адрес начального или
+// конечного sc-элемента (посмотреть его в sc-событии).
+// `connectorAddr` — это sc-адрес сгенерированного sc-коннектора
+// к или от `subscriptionElementAddr`.
+// `otherAddr` — это sc-адрес начального или конечного sc-элемента
+// `arcAddr`.
 ...
       </code></pre>
     </td>
@@ -123,16 +123,16 @@ auto const [subscriptionElementAddr, connectorAddr, otherAddr]
     <td><strong>ScEventAfterGenerateOutgoingArc</strong></td>
     <td>
       <scg src="../images/events/sc_event_outgoing_arc.gwf"></scg>
-      <strong>Example C++ code</strong>:
+      <strong>Пример кода на C++</strong>:
       <pre><code class="cpp">
 ...
 auto const [subscriptionElementAddr, arcAddr, otherAddr] 
   = event.GetTriple();
-// `subscriptionElementAddr` is sc-address of source sc-element 
-// (listen it in sc-event).
-// `arcAddr` is sc-address of generated outgoing sc-arc 
-// from `subscriptionElementAddr`.
-// `otherAddr` is sc-address of target sc-element of `arcAddr`.
+// `subscriptionElementAddr` - это sc-адрес начального sc-элемента 
+// (посмотреть его в sc-событии).
+// `arcAddr` - это sc-адрес сгенерированной исходящей sc-дуги 
+// из `subscriptionElementAddr`.
+// `otherAddr` - это sc-адрес конечного sc-элемента `arcAddr`.
 ...
       </code></pre>
     </td>
@@ -142,16 +142,16 @@ auto const [subscriptionElementAddr, arcAddr, otherAddr]
     <td><strong>ScEventAfterGenerateIncomingArc</strong></td>
     <td>
       <scg src="../images/events/sc_event_incoming_arc.gwf"></scg>
-      <strong>Example C++ code</strong>:
+      <strong>Пример кода на C++</strong>:
       <pre><code class="cpp">
 ...
 auto const [subscriptionElementAddr, arcAddr, otherAddr] 
   = event.GetTriple();
-// `subscriptionElementAddr` is sc-address of target sc-element 
-// (listen it in sc-event).
-// `arcAddr` is sc-address of generated incoming sc-arc 
-// to `subscriptionElementAddr`.
-// `otherAddr` is sc-address of source sc-element of `arcAddr`.
+// `subscriptionElementAddr` - это sc-адрес конечного sc-элемента 
+// (посмотреть его в sc-событии).
+// `arcAddr` - это sc-адрес сгенерированной входящей sc-дуги 
+// для `subscriptionElementAddr`.
+// `otherAddr` - это sc-адрес начального sc-элемента `arcAddr`.
 ...
       </code></pre>
     </td>
@@ -161,17 +161,17 @@ auto const [subscriptionElementAddr, arcAddr, otherAddr]
     <td><strong>ScEventAfterGenerateEdge</strong></td>
     <td>
       <scg src="../images/events/sc_event_edge.gwf"></scg>
-      <strong>Example C++ code</strong>:
+      <strong>Пример кода на C++</strong>:
       <pre><code class="cpp">
 ...
 auto const [subscriptionElementAddr, edgeAddr, otherAddr] 
   = event.GetTriple();
-// `subscriptionElementAddr` is sc-address of source 
-// or target sc-element (listen it in sc-event).
-// `edgeAddr` is sc-address of generated sc-edge 
-// to or from `subscriptionElementAddr`.
-// `otherAddr` is sc-address of source or target sc-element 
-// of `edgeAddr`.
+// `subscriptionElementAddr` - это sc-адрес начального 
+// или конечного sc-элемента (посмотреть его в sc-событии).
+// `edgeAddr` - это sc-адрес сгенерированного sc-ребра 
+// в "subscriptionElementAddr" или из "subscriptionElementAddr".
+// `otherAddr` - это sc-адрес начального или конечного sc-элемента 
+// из `edgeAddr`.
 ...
       </code></pre>
     </td>
@@ -181,17 +181,17 @@ auto const [subscriptionElementAddr, edgeAddr, otherAddr]
   <td><strong>ScEventBeforeEraseConnector</strong></td>
   <td>
     <scg src="../images/events/sc_event_connector.gwf"></scg>
-    <strong>Example C++ code</strong>:
+    <strong>Пример кода на C++</strong>:
     <pre><code class="cpp">
 ...
 auto const [subscriptionElementAddr, connectorAddr, otherAddr] 
   = event.GetTriple();
-// `subscriptionElementAddr` is sc-address of source or
-// target sc-element (listen it in sc-event).
-// `connectorAddr` is sc-address of erasable sc-connector 
-// to or from `subscriptionElementAddr`.
-// `otherAddr` is sc-address of source or target sc-element 
-// of `arcAddr`.
+// `subscriptionElementAddr` - это sc-адрес начального или
+// конечного sc-элемента (посмотреть его в sc-событии).
+// connectorAddr — это sc-адрес удаляемого sc-коннектора
+// к или от subscriptionElementAddr.
+// "otherAddr" - это sc-адрес начального или конечного sc-элемента 
+// из `arcAddr`.
 ...
       </code></pre>
     </td>
@@ -201,16 +201,16 @@ auto const [subscriptionElementAddr, connectorAddr, otherAddr]
     <td><strong>ScEventBeforeEraseOutgoingArc</strong></td>
     <td>
       <scg src="../images/events/sc_event_outgoing_arc.gwf"></scg>
-      <strong>Example C++ code</strong>:
+      <strong>Пример кода на C++</strong>:
       <pre><code class="cpp">
 ...
 auto const [subscriptionElementAddr, arcAddr, otherAddr] 
   = event.GetTriple();
-// `subscriptionElementAddr` is sc-address of source sc-element 
-// (listen it in sc-event).
-// `arcAddr` is sc-address of erasable outgoing sc-arc 
-// from `subscriptionElementAddr`.
-// `otherAddr` is sc-address of target sc-element of `arcAddr`.
+// `subscriptionElementAddr` - это sc-адрес начального sc-элемента 
+// (посмотреть его в sc-событии).
+// `arcAddr` - это sc-адрес удаляемой исходящей sc-дуги 
+// из `subscriptionElementAddr`.
+// `otherAddr` - это sc-адрес конечного sc-элемента `arcAddr`.
 ...
       </code></pre>
     </td>
@@ -220,16 +220,16 @@ auto const [subscriptionElementAddr, arcAddr, otherAddr]
     <td><strong>ScEventBeforeEraseIncomingArc</strong></td>
     <td>
       <scg src="../images/events/sc_event_incoming_arc.gwf"></scg>
-      <strong>Example C++ code</strong>:
+      <strong>Пример кода на C++</strong>:
       <pre><code class="cpp">
 ...
 auto const [subscriptionElementAddr, arcAddr, otherAddr] 
   = event.GetTriple();
-// `subscriptionElementAddr` is sc-address of target sc-element 
-// (listen it in sc-event).
-// `arcAddr` is sc-address of erasable incoming sc-arc 
-// to `subscriptionElementAddr`.
-// `otherAddr` is sc-address of source sc-element of `arcAddr`.
+// `subscriptionElementAddr` - это sc-адрес конечного sc-элемента 
+// (посмотреть его в sc-событии).
+// `arcAddr` - это sc-адрес удаляемой входящей sc-дуги
+// для `subscriptionElementAddr`.
+// `otherAddr` - это sc-адрес начального sc-элемента `arcAddr`.
 ...
       </code></pre>
     </td>
@@ -239,18 +239,18 @@ auto const [subscriptionElementAddr, arcAddr, otherAddr]
     <td><strong>ScEventBeforeEraseEdge</strong></td>
     <td>
       <scg src="../images/events/sc_event_edge.gwf"></scg>
-      <strong>Example C++ code</strong>:
+      <strong>Пример кода на C++</strong>:
       <pre><code class="cpp">
 ...
 auto const [subscriptionElementAddr, edgeAddr, otherAddr] 
   = event.GetTriple();
-// `subscriptionElementAddr` is sc-address of source or 
-// target sc-element 
-// (listen it in sc-event).
-// `edgeAddr` is sc-address of erasable sc-edge 
-// to or from `subscriptionElementAddr`.
-// `otherAddr` is sc-address of source or target sc-element 
-// of `edgeAddr`.
+// `subscriptionElementAddr` - это sc-адрес начального или
+// конечного sc-элемента 
+// (посмотреть в sc-событии).
+// `edgeAddr` - это sc-адрес удаляемого sc-ребра 
+// в или из "subscriptionElementAddr".
+// `otherAddr` - это sc-адрес начального или конечного sc-элемента 
+// из `edgeAddr`.
 ...
       </code></pre>
     </td>
@@ -259,16 +259,16 @@ auto const [subscriptionElementAddr, edgeAddr, otherAddr]
   <tr>
     <td><strong>ScEventBeforeEraseElement</strong></td>
     <td>
-      <strong>Example C++ code</strong>:
+      <strong>Пример кода на C++</strong>:
       <pre><code class="cpp">
 ...
 auto const [subscriptionElementAddr, _1, _2] 
   = event.GetTriple();
-// `subscriptionElementAddr` is sc-address of erasable 
-// sc-element 
-// (listen it in sc-event).
-// `_1` is empty sc-address.
-// `_2` is empty sc-address.
+// `subscriptionElementAddr` - это sc-адрес удаляемого 
+// sc-элемента 
+// (посмотреть его в sc-событии).
+// `_1` - пустой sc-адрес.
+// `_2` - пустой sc-адрес.
 ...
       </code></pre>
     </td>
@@ -278,25 +278,25 @@ auto const [subscriptionElementAddr, _1, _2]
     <td><strong>ScEventBeforeChangeLinkContent</strong></td>
     <td>
       <scg src="../images/events/sc_event_content.gwf"></scg>
-      <strong>Example C++ code</strong>:
+      <strong>Пример кода на C++</strong>:
       <pre><code class="cpp">
 ...
 auto const [subscriptionElementAddr, _1, _2] 
   = event.GetTriple();
-// `subscriptionElementAddr` is sc-address of sc-link 
-// that has changable content.
-// (listen it in sc-event).
-// `_1` is empty sc-address.
-// `_2` is empty sc-address.
+// `subscriptionElementAddr` - это sc-адрес sc-ссылки 
+// с изменяемым содержимым.
+// (посмотреть его в sc-событии).
+// `_1` - пустой sc-адрес.
+// `_2` - пустой sc-адрес.
 ...
       </code></pre>
     </td>
   </tr>
 </table>
 
-!!! note
-    All described methods of `ScElementaryEvent` class are public and accessible from child classes.
-
+!!! примечание
+    Все описанные методы класса `ScElementaryEvent` являются общедоступными и доступны из дочерних классов.
+    
 ### **ScEventAfterGenerateConnector**
 
 `ScEventAfterGenerateConnector` is class that represents sc-event of generating sc-connector to or from specified sc-element.
