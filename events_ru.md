@@ -25,7 +25,7 @@ Sc-машина использует событийно-управляемую �
 
 ## **ScEvent**
 
-sc-машина предоставляет функциональность для подписки следующих элементарных типов sc-событий:
+sc-машина предоставляет функционал для подписки следующих элементарных типов sc-событий:
 
 * `ScElementaryEvent` является базовым классом для всех sc-событий, его можно использовать для обработки всех sc-событий для указанного sc-элемента;
 * `ScEventAfterGenerateConnector`, генерируется каждый раз, когда генерируется sc-коннектор от указанного sc-элемента или к нему;
@@ -109,7 +109,7 @@ ScAddr const subscriptionElement = event.GetSubscriptionElement();
 auto const [subscriptionElementAddr, connectorAddr, otherAddr] 
   = event.GetTriple();
 // `subscriptionElementAddr` — это sc-адрес начального или
-// конечного sc-элемента (посмотреть его в sc-событии).
+// конечного sc-элемента (прослушивать на нем sc-событие).
 // `connectorAddr` — это sc-адрес сгенерированного sc-коннектора
 // к или от `subscriptionElementAddr`.
 // `otherAddr` — это sc-адрес начального или конечного sc-элемента
@@ -129,7 +129,7 @@ auto const [subscriptionElementAddr, connectorAddr, otherAddr]
 auto const [subscriptionElementAddr, arcAddr, otherAddr] 
   = event.GetTriple();
 // `subscriptionElementAddr` - это sc-адрес начального sc-элемента 
-// (посмотреть его в sc-событии).
+// (прослушивать его в sc-событии).
 // `arcAddr` - это sc-адрес сгенерированной исходящей sc-дуги 
 // из `subscriptionElementAddr`.
 // `otherAddr` - это sc-адрес конечного sc-элемента `arcAddr`.
@@ -148,7 +148,7 @@ auto const [subscriptionElementAddr, arcAddr, otherAddr]
 auto const [subscriptionElementAddr, arcAddr, otherAddr] 
   = event.GetTriple();
 // `subscriptionElementAddr` - это sc-адрес конечного sc-элемента 
-// (посмотреть его в sc-событии).
+// (прослушивать его в sc-событии).
 // `arcAddr` - это sc-адрес сгенерированной входящей sc-дуги 
 // для `subscriptionElementAddr`.
 // `otherAddr` - это sc-адрес начального sc-элемента `arcAddr`.
@@ -167,7 +167,7 @@ auto const [subscriptionElementAddr, arcAddr, otherAddr]
 auto const [subscriptionElementAddr, edgeAddr, otherAddr] 
   = event.GetTriple();
 // `subscriptionElementAddr` - это sc-адрес начального 
-// или конечного sc-элемента (посмотреть его в sc-событии).
+// или конечного sc-элемента (прослушивать его в sc-событии).
 // `edgeAddr` - это sc-адрес сгенерированного sc-ребра 
 // в "subscriptionElementAddr" или из "subscriptionElementAddr".
 // `otherAddr` - это sc-адрес начального или конечного sc-элемента 
@@ -187,7 +187,7 @@ auto const [subscriptionElementAddr, edgeAddr, otherAddr]
 auto const [subscriptionElementAddr, connectorAddr, otherAddr] 
   = event.GetTriple();
 // `subscriptionElementAddr` - это sc-адрес начального или
-// конечного sc-элемента (посмотреть его в sc-событии).
+// конечного sc-элемента (прослушивать его в sc-событии).
 // connectorAddr — это sc-адрес удаляемого sc-коннектора
 // к или от subscriptionElementAddr.
 // "otherAddr" - это sc-адрес начального или конечного sc-элемента 
@@ -207,7 +207,7 @@ auto const [subscriptionElementAddr, connectorAddr, otherAddr]
 auto const [subscriptionElementAddr, arcAddr, otherAddr] 
   = event.GetTriple();
 // `subscriptionElementAddr` - это sc-адрес начального sc-элемента 
-// (посмотреть его в sc-событии).
+// (прослушивать его в sc-событии).
 // `arcAddr` - это sc-адрес удаляемой исходящей sc-дуги 
 // из `subscriptionElementAddr`.
 // `otherAddr` - это sc-адрес конечного sc-элемента `arcAddr`.
@@ -226,7 +226,7 @@ auto const [subscriptionElementAddr, arcAddr, otherAddr]
 auto const [subscriptionElementAddr, arcAddr, otherAddr] 
   = event.GetTriple();
 // `subscriptionElementAddr` - это sc-адрес конечного sc-элемента 
-// (посмотреть его в sc-событии).
+// (прослушивать его в sc-событии).
 // `arcAddr` - это sc-адрес удаляемой входящей sc-дуги
 // для `subscriptionElementAddr`.
 // `otherAddr` - это sc-адрес начального sc-элемента `arcAddr`.
@@ -246,7 +246,7 @@ auto const [subscriptionElementAddr, edgeAddr, otherAddr]
   = event.GetTriple();
 // `subscriptionElementAddr` - это sc-адрес начального или
 // конечного sc-элемента 
-// (посмотреть в sc-событии).
+// (прослушивать его в sc-событии).
 // `edgeAddr` - это sc-адрес удаляемого sc-ребра 
 // в или из "subscriptionElementAddr".
 // `otherAddr` - это sc-адрес начального или конечного sc-элемента 
@@ -266,7 +266,7 @@ auto const [subscriptionElementAddr, _1, _2]
   = event.GetTriple();
 // `subscriptionElementAddr` - это sc-адрес удаляемого 
 // sc-элемента 
-// (посмотреть его в sc-событии).
+// (прослушивать его в sc-событии).
 // `_1` - пустой sc-адрес.
 // `_2` - пустой sc-адрес.
 ...
@@ -285,7 +285,7 @@ auto const [subscriptionElementAddr, _1, _2]
   = event.GetTriple();
 // `subscriptionElementAddr` - это sc-адрес sc-ссылки 
 // с изменяемым содержимым.
-// (посмотреть его в sc-событии).
+// (прослушивать его в sc-событии).
 // `_1` - пустой sc-адрес.
 // `_2` - пустой sc-адрес.
 ...
@@ -299,12 +299,11 @@ auto const [subscriptionElementAddr, _1, _2]
     
 ### **ScEventAfterGenerateConnector**
 
-`ScEventAfterGenerateConnector` is class that represents sc-event of generating sc-connector to or from specified sc-element.
+`ScEventAfterGenerateConnector` - это класс, который представляет sc-событие генерации sc-коннектора к или из указанного sc-элемента.
 
 #### **GetConnector**
 
-Method `GetConnector` returns generated sc-connector to or from listen sc-element (subscription sc-element).
-
+Метод `GetConnector` возвращает сгенерированный sc-коннектор к или из прослушиваемого sc-элемента (sc-элемент подписки).
 ```cpp
 ...
 ScAddr const connectorAddr = event.GetConnector();
@@ -313,7 +312,7 @@ ScAddr const connectorAddr = event.GetConnector();
 
 #### **GetConnectorType**
 
-It returns sc-type of generated sc-connector.
+Он возвращает sc-тип сгенерированного sc-коннектора.
 
 ```cpp
 ...
@@ -323,7 +322,7 @@ ScType const connectorType = event.GetConnectorType();
 
 #### **GetConnectorIncidentElements**
 
-A sc-connector can be a sc-arc or a sc-edge, so method `GetConnectorIncidentElements` returns two incident elements for the generated sc-connector at once.
+Sc-коннектором может быть sc-дуга или sc-ребро, поэтому метод `GetConnectorIncidentElements` возвращает сразу два инцидентных элемента для сгенерированного sc-коннектора.
 
 ```cpp
 ...
@@ -331,13 +330,13 @@ auto const [elementAddr1, elementAddr2] = event.GetConnectorIncidentElements();
 ...
 ```
 
-### **ScEventAfterGenerateOutgoingArc** and **ScEventAfterGenerateIncomingArc**
+### **ScEventAfterGenerateOutgoingArc** и **ScEventAfterGenerateIncomingArc**
 
-`ScEventAfterGenerateOutgoingArc` is class that represents sc-event of generating outgoing sc-arc from specified sc-element. `ScEventAfterGenerateIncomingArc` represents sc-event of generating incoming sc-arc to specified sc-element.
+`ScEventAfterGenerateOutgoingArc` - это класс, который представляет sc-событие генерации исходящей sc-дуги из указанного sc-элемента. `ScEventAfterGenerateIncomingArc` представляет sc-событие генерации входящей sc-дуги для указанного sc-элемента.
 
 #### **GetArc**
 
-Method `GetArc` returns generated sc-arc from (for `ScEventAfterGenerateOutgoingArc`) or to (for `ScEventAfterGenerateIncomingArc`) listen sc-element (subscription sc-element).
+Метод `GetArc` возвращает сгенерированную sc-дугу из (для `sceventaftergenerate outgoingarc`) или к (для `sceventaftergenerate Incomingarc`) прослушиваемого sc-элемента (sc-элемент подписки).
 
 ```cpp
 ...
@@ -347,7 +346,7 @@ ScAddr const arcAddr = event.GetArc();
 
 #### **GetArcType**
 
-It returns sc-type of generated sc-arc.
+Он возвращает sc-тип сгенерированной sc-дуги.
 
 ```cpp
 ...
@@ -357,7 +356,7 @@ ScType const arcType = event.GetArcType();
 
 #### **GetArcSourceElement**
 
-To get source and target sc-elements of generated sc-arc you can use `GetArcSourceElement` and `GetArcTargetElement` methods. For `ScEventAfterGenerateOutgoingArc` method `GetArcSourceElement` returns sc-address of listen sc-element, for `ScEventAfterGenerateIncomingArc` method `GetArcTargetElement` returns sc-address of listen sc-element.
+Чтобы получить начальные и конечные sc-элементы сгенерированной sc-дуги, вы можете использовать методы `GetArcSourceElement` и `GetArcTargetElement`. Для `ScEventAfterGenerateOutgoingArc` метод `GetArcSourceElement` возвращает sc-адрес прослушиваемого sc-элемента, для `Sceventaftergenerate incomingarc` метод `GetArcTargetElement` возвращает sc-адрес прослушиваемого sc-элемента.
 
 ```cpp
 ...
@@ -375,11 +374,11 @@ ScAddr const targetElementAddr = event.GetArcTargetElement();
 
 ### **ScEventAfterGenerateEdge**
 
-This class represents sc-event of adding sc-edge from or to specified sc-element.
+Этот класс представляет sc-событие добавления sc-ребра из указанного sc-элемента или к нему.
 
 #### **GetEdge**
 
-Method `GetEdge` returns generated sc-edge from or to listen sc-element (subscription sc-element).
+Метод `GetEdge` возвращает сгенерированное sc-ребро из sc-элемента или для прослушивания sc-элемента (sc-элемент подписки).
 
 ```cpp
 ...
@@ -389,7 +388,7 @@ ScAddr const edgeAddr = event.GetEdge();
 
 #### **GetEdgeType**
 
-It returns sc-type of generated sc-edge.
+Он возвращает sc-тип сгенерированного sc-ребра.
 
 ```cpp
 ...
@@ -399,7 +398,7 @@ ScAddr const edgeType = event.GetEdgeType();
 
 #### **GetEdgeIncidentElements**
 
-To get incident sc-elements of generated sc-edge you can use `GetEdgeIncidentElements` method.
+Чтобы получить инцидентные sc-элементы сгенерированного sc-ребра, вы можете использовать метод `GetEdgeIncidentElements`.
 
 ```cpp
 ...
@@ -409,11 +408,11 @@ auto const [elementAddr1, elementAddr2] = event.GetEdgeIncidentElements();
 
 ### **ScEventBeforeEraseConnector**
 
-`ScEventBeforeEraseConnector` is class that represents sc-event of erasing sc-connector to or from specified sc-element.
+`ScEventBeforeEraseConnector` - это класс, который представляет sc-событие удаления sc-коннектора из указанного sc-элемента.
 
 #### **GetConnector**
 
-Method `GetConnector` returns erasable sc-connector to or from listen sc-element (subscription sc-element).
+Метод `GetConnector` возвращает удаляемый sc-коннектор в или из прослушиваемого sc-элемента (sc-элемент подписки).
 
 ```cpp
 ...
@@ -423,7 +422,7 @@ ScAddr const connectorAddr = event.GetConnector();
 
 #### **GetConnectorType**
 
-It returns sc-type of erasable sc-connector.
+Он возвращает sc-тип  удаляемого sc-коннектора.
 
 ```cpp
 ...
@@ -433,7 +432,7 @@ ScType const connectorType = event.GetConnectorType();
 
 #### **GetConnectorIncidentElements**
 
-Method `GetConnectorIncidentElements` returns two incident elements for the erasable sc-connector at once.
+Метод `GetConnectorIncidentElements` возвращает сразу два инцидентных элемента для удаляемого sc-коннектора.
 
 ```cpp
 ...
@@ -441,7 +440,7 @@ auto const [elementAddr1, elementAddr2] = event.GetConnectorIncidentElements();
 ...
 ```
 
-### **ScEventBeforeEraseOutgoingArc** and **ScEventBeforeEraseIncomingArc**
+### **ScEventBeforeEraseOutgoingArc** и **ScEventBeforeEraseIncomingArc**
 
 `ScEventBeforeEraseOutgoingArc` is class that represents sc-event of erasing outgoing sc-arc from specified sc-element. `ScEventBeforeEraseIncomingArc` represents sc-event of erasing incoming sc-arc to specified sc-element.
 
