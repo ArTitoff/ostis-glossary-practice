@@ -442,11 +442,11 @@ auto const [elementAddr1, elementAddr2] = event.GetConnectorIncidentElements();
 
 ### **ScEventBeforeEraseOutgoingArc** и **ScEventBeforeEraseIncomingArc**
 
-`ScEventBeforeEraseOutgoingArc` is class that represents sc-event of erasing outgoing sc-arc from specified sc-element. `ScEventBeforeEraseIncomingArc` represents sc-event of erasing incoming sc-arc to specified sc-element.
+`ScEventBeforeEraseOutgoingArc` - это класс, который представляет sc-событие удаления исходящей sc-дуги из указанного sc-элемента. `ScEventBeforeEraseIncomingArc` представляет sc-событие удаления входящей sc-дуги для указанного sc-элемента.
 
 #### **GetArc**
 
-Method `GetArc` returns erasable sc-arc from (for `ScEventBeforeEraseOutgoingArc`) or to (for `ScEventBeforeEraseIncomingArc`) listen sc-element (subscription sc-element).
+Метод `GetArc` возвращает удаляемую sc-дугу из (для `ScEventBeforeEraseOutgoingArc`) или к (для `ScEventBeforeEraseIncomingArc`) прослушиваемому sc-элементу (sc-элемент подписки).
 
 ```cpp
 ...
@@ -456,7 +456,7 @@ ScAddr const arcAddr = event.GetArc();
 
 #### **GetArcType**
 
-It returns sc-type of erasable sc-arc.
+Он возвращает sc-тип удаляемой sc-дуги.
 
 ```cpp
 ...
@@ -466,7 +466,7 @@ ScAddr const arcType = event.GetArcType();
 
 #### **GetArcSourceElement**
 
-To get source and target sc-elements of erasable sc-arc you can use `GetArcSourceElement` and `GetArcTargetElement` methods. For `ScEventBeforeEraseOutgoingArc` method `GetArcSourceElement` returns sc-address of listen sc-element, for `ScEventBeforeEraseIncomingArc` method `GetArcTargetElement` returns sc-address of listen sc-element.
+Чтобы получить начальные и конечные sc-элементы удаляемой sc-дуги, вы можете использовать методы `GetArcSourceElement` и `GetArcTargetElement`. Для `ScEventBeforeEraseOutgoingArc` метод `GetArcSourceElement` возвращает sc-адрес прослушиваемого sc-элемента, для `ScEventBeforeEraseIncomingArc` метод `GetArcTargetElement` возвращает sc-адрес прослушиваемого sc-элемента.
 
 ```cpp
 ...
@@ -484,11 +484,11 @@ ScAddr const arcTargetElement = event.GetArcTargetElement();
 
 ### **ScEventBeforeEraseEdge**
 
-This class represents sc-event of erasing sc-edge from or to specified sc-element.
+Этот класс представляет собой sc-событие удаления sc-ребра от или к указанному sc-элементу.
 
 #### **GetEdge**
 
-Method `GetEdge` returns erasable sc-edge from or to listen sc-element (subscription sc-element).
+Метод `GetEdge` возвращает удаляемое sc-ребро от или к прослушиваемому sc-элементу (элементу подписки).
 
 ```cpp
 ...
@@ -498,7 +498,7 @@ ScAddr const edgeAddr = event.GetEdge();
 
 #### **GetEdgeType**
 
-It returns sc-type of erasable sc-edge.
+Он возвращает sc-тип удаляемого sc-ребра.
 
 ```cpp
 ...
@@ -508,7 +508,7 @@ ScAddr const edgeType = event.GetEdgeType();
 
 #### **GetEdgeIncidentElements**
 
-To get incident sc-elements of erasable sc-edge you can use `GetEdgeIncidentElements` method.
+Чтобы получить инцидентные sc-элементы удаляемого sc-ребра, вы можете использовать метод `GetEdgeIncidentElements`.
 
 ```cpp
 ...
@@ -518,36 +518,36 @@ auto const [elementAddr1, elementAddr2] = event.GetEdgeIncidentElements();
 
 ### **ScEventBeforeEraseElement**
 
-This class represents sc-event of erasing specified listen sc-element. You can use all methods from objects of this class that are accessible from `ScElementaryEvent` class.
+Этот класс представляет sc-событие удаления указанного прослушиваемого sc-элемента. Вы можете использовать все методы из объектов этого класса, которые доступны из класса `ScElementaryEvent`.
 
 ### **ScEventBeforeChangeLinkContent**
 
-This class represents sc-event of changing content for listen sc-link. You can use all methods from objects of this class that are accessible from `ScElementaryEvent` class.
+Этот класс представляет sc-событие изменения содержимого для прослушивания sc-ссылки. Вы можете использовать все методы из объектов этого класса, которые доступны из класса `ScElementaryEvent`.
 
-!!! note
-    For `ScEventBeforeEraseElement` and `ScEventBeforeChangeLinkContent` method `GetTriple` returns tuple of three sc-address. The first one is a sc-event subscription sc-element. The other ones should be empty sc-addresses.
+!!! примечание
+    Для `ScEventBeforeEraseElement` и `ScEventBeforeChangeLinkContent` метод `GetTriple` возвращает кортеж из трех sc-адресов. Первый - это sc-элемент подписки на sc-событие. Остальные должны быть пустыми sc-адресами.
 
 --- 
 
-## **Frequently Asked Questions**
+## **Часто Задаваемые Вопросы**
 
 <!-- no toc -->
-- [Is there sc-event of creating sc-node?](#is-there-sc-event-of-creating-sc-node)
-- [Is fact of what happened recorded in the knowledge base? Are sc-events recorded in the knowledge base?](#is-fact-of-what-happened-recorded-in-the-knowledge-base-are-sc-events-recorded-in-the-knowledge-base)
-- [Why do we need connector events?](#why-do-we-need-connector-events)
+- [Существует ли sc-событие создания sc-узла?](#is-there-sc-event-of-creating-sc-node)
+- [Регистрируется ли факт произошедшего в базе знаний? Регистрируются ли sc-события в базе знаний?](#is-fact-of-what-happened-recorded-in-the-knowledge-base-are-sc-events-recorded-in-the-knowledge-base)
+- [Зачем нам нужны события connector?](#why-do-we-need-connector-events)
 
-### **Is there sc-event of creating sc-node?**
+### **Существует ли sc-событие создания sc-узла?**
 
-A sc-event is defined as the addition, modification or erasing of connections between sc-elements, or changing link content, or erasing sc-element. This is so because knowledge is not a single sc-element, and knowledge is construction of three sc-elements at least. A sc-element does not carry any knowledge in itself. Therefore, a sc-event is considered to be emergence of some new knowledge. But there is an exception, erasing sc-elements with no connections with other sc-elements is considered an event.
+Sc-событие определяется как добавление, модификация или удаление связей между sc-элементами, или изменение содержимого ссылок, или удаление sc-элемента. Это так, потому что знание не является отдельным sc-элементом, а представляет собой конструкцию из как минимум трех sc-элементов. Sc-элемент сам по себе не несет в себе никаких знаний. Следовательно, sc-событием считается появление некоторого нового знания. Но есть исключение, удаление sc-элементов, не связанных с другими sc-элементами, считается событием.
 
-Also, even if events were defined differently, it doesn't negate the fact that one cannot subscribe to sc-event of creating sc-node, since we don't know about that node in advance, because it doesn't exist.
+Кроме того, даже если события были определены по-другому, это не отменяет того факта, что нельзя подписаться на sc-событие создания sc-узла, поскольку мы не знаем об этом узле заранее, потому что он не существует.
 
-### **Is fact of what happened recorded in the knowledge base? Are sc-events recorded in the knowledge base?**
+### **Регистрируется ли факт произошедшего в базе знаний? Регистрируются ли sc-события в базе знаний?**
 
-Right now, sc-events are not recorded in the knowledge base. It will be implemented in the future versions of the sc-machine.
+На данный момент sc-события не регистрируются в базе знаний. Это будет реализовано в будущих версиях sc-машины.
 
 ### **Why do we need connector events?**
 
-Event of generating (erasing) sc-connector is needed to subscribe to both generating (erasing) sc-arc and sc-edge.
+Событие генерации (удаления) sc-коннектора необходимо для подписки как на генерирующую (удаляющую) sc-дугу, так и на sc-ребро.
 
-For example, man B is a brother for woman A, and man B is a brother for man C. Here, the relation `to be a brother` between woman A and man B is oriented, i.e. they are connected by a sc-arc, not by a sc-edge, and the relation `to be a brother` between man C and man B is undirected, i.e. these men are connected by a sc-edge. In order for an agent to react to appearance of both a sc-arc and a sc-edge from man B to woman A and man C correspondingly, it is necessary to subscribe that agent to appearance of a sc-connector, i.e sc-arc or sc-edge from man B.
+Например, мужчина В является братом для женщины А, а мужчина В является братом для мужчины С. Здесь отношение "быть братом" между женщиной А и мужчиной В ориентировано, т.е. они связаны дугой, а не ребром, и отношение `быть братом` между мужчиной С и мужчиной В нецелесообразно, т.е. эти люди связаны узким местом. Для того, чтобы агент реагировал на появление как sc-дуги, так и sc-ребра от мужчины B к женщине A и мужчине C соответственно, необходимо, чтобы этот агент подписался на появление sc-коннектора, то есть sc-дуги или sc-ребра от мужчины B.
