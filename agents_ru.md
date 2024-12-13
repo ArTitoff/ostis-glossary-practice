@@ -125,57 +125,57 @@ API sc-machine предоставляет два типа функциональ
 3. **Полудинамическая спецификация агента** может быть получена, когда спецификация предоставляется в базе
  знаний или изначально содержится в коде и добавляется извне (через переопределяющие общедоступные средства получения(геттеры)).
 
-Static agent specification can be useful if you are implementing an agent in C++ for the first time or if you want to minimize the number of searches in the knowledge base. Dynamic agent specification provides the opportunity to analyze and change this specification by other agents. Semi-dynamic specification can be useful if you want to change some parts of this specification but still want the agent's calls to be quick.
+Статическая спецификация агента может быть полезна, если вы впервые внедряете агент на C++ или хотите свести к минимуму количество поисков в базе знаний. Динамическая спецификация агента предоставляет возможность анализировать и изменять эту спецификацию другими агентами. Полудинамическая спецификация может быть полезна, если вы хотите изменить некоторые части этой спецификации, но при этом хотите, чтобы вызовы агента выполнялись быстро.
 
 ---
 
-## **Static agent specification**
+## **Спецификация статического агента**
 
-Here, the API for implementing an agent with a static specification will be discussed. This is the easiest implementation variant to understand for you. To learn about dynamic agent specification, see [**C++ Modules API**](modules.md).
+Здесь будет рассмотрен API для реализации агента со статической спецификацией. Это самый простой вариант реализации, который вам будет понятен. Чтобы узнать о динамической спецификации агента, смотрите [**C++ Modules API**](modules.md).
 
-There are two main classes that you can use to implement an agent: `ScAgent` and `ScActionInitiatedAgent`.
+Существует два основных класса, которые вы можете использовать для реализации агента: `ScAgent` и `ScActionInitiatedAgent`.
 
 ### **ScAgent**
 
-There is a base class for agents in C++. This class provides implemented methods to retrieve elements of the agent's specification from the knowledge base. All these methods can be overridden in your agent class.
+В C++ существует базовый класс для агентов. Этот класс предоставляет реализованные методы для извлечения элементов спецификации агента из базы знаний. Все эти методы могут быть переопределены в вашем классе агента.
 
-You should distinguish between an abstract sc-agent as some class of functional equivalent sc-agents described in the knowledge base and `ScAgent` as a C++ class that implements an API to work with abstract sc-agents in the knowledge base.
+Вы должны различать абстрактный sc-агент как некоторый класс функционально эквивалентных sc-агентов, описанных в базе знаний, и `ScAgent` как класс C++, который реализует API для работы с абстрактными sc-агентами в базе знаний.
 
-This class can be used for all types of platform-dependent agents. Agents of this class react for events in the knowledge base, check the full initiation condition. If the check is successful, generate, initiate and execute the action. After that, they check full result condition. The example using this class is represented below.
+Этот класс можно использовать для всех типов платформозависимых агентов. Агенты этого класса реагируют на события в базе знаний, проверяют условие полной инициализации. Если проверка прошла успешно, генерируют, инициируют и выполняют действие. После этого они проверяют условие полной результативности. Пример использования этого класса представлен ниже.
 
 ```cpp
-// File my_agent.hpp
+// файл my_agent.hpp
 #pragma once
 
 #include <sc-memory/sc_agent.hpp>
 
-// Inherit your agent class from `ScAgent` class and specify template argument 
-// as sc-event class. Here `ScEventAfterGenerateIncomingArc<
-// ScType::ConstPermPosArc>` is type of event to which the given 
-// agent reacts.
+// Наследуйте свой класс agent от класса `ScAgent` и укажите аргумент шаблона 
+// как класс sc-события. Здесь `ScEventAfterGenerateIncomingArc<
+// ScType::ConstPermPosArc>` - это тип события, на которое реагирует данный агент.
+
 class MyAgent : public ScAgent<
   ScEventAfterGenerateIncomingArc<ScType::ConstPermPosArc>>
 {
 public:
-  // Here you should specify class of actions which the given agent performs. 
-  // Here `GetActionClass` overrides `GetActionClass` 
-  // in `ScAgent` class. This overriding is required.
+  // Здесь вы должны указать класс действий, которые выполняет данный агент. 
+ // Здесь `GetActionClass` переопределяет `GetActionClass` 
+ // в классе `ScAgent`. Это переопределение обязательно.
   ScAddr GetActionClass() const override;
-  // Here you should implement program of the given agent. 
-  // This overriding is required.
+ // Здесь вы должны реализовать программу данного агента. 
+ // Это переопределение обязательно.
   ScResult DoProgram(
     ScEventAfterGenerateIncomingArc<
       ScType::ConstPermPosArc> const & event, 
     ScAction & action) override;
 
-  // Other user-defined methods.
+  // Другие методы, определяемые пользователем.
 };
 ```
 
-You can't override `DoProgram` without sc-event argument. There can be override one of these methods. 
+Вы не можете переопределить `DoProgram` без аргумента sc-event. Можно переопределить один из этих методов.
 
 ```cpp
-// File my_agent.hpp
+// файл my_agent.hpp
 #pragma once
 
 #include <sc-memory/sc_agent.hpp>
@@ -187,22 +187,22 @@ public:
   ScAddr GetActionClass() const override;
   ScResult DoProgram(ScAction & action) override;
 
-  // Other user-defined methods.
+  // Другие методы, определяемые пользователем.
 };
 ```
 
-See [**C++ Events API**](events.md) and [**C++ Event subscriptions API**](event_subscriptions.md) to learn how to use and handle sc-events.
+Смотрите [**C++ Events API**](events.md) и [**C++ Event subscriptions API**](event_subscriptions.md), чтобы узнать, как использовать sc-события и обрабатывать их.
 
-!!! note
-    Define action class as keynode in agent class or keynodes class.
+!!! примечание
+    Определите класс действий как ключевой узел в классе агентов или классе ключевых узлов.
 
-!!! warning
-    You should override methods `GetActionClass` and `DoProgram`. But if you provide specification of your agent in knowledge base, then you don't need to override `GetActionClass`. See [**C++ Modules API**](modules.md) to learn how to implement agents with specification in the knowledge base.
+!!! предупреждение
+    Вам следует переопределить методы `GetActionClass` и `DoProgram`. Но если вы предоставите спецификацию вашего агента в базе знаний, то вам не нужно будет переопределять `GetActionClass`. Смотрите [**C++ Modules API**](modules.md), чтобы узнать, как реализовать агенты со спецификацией в базе знаний.
 
-You can specify any existing event types as a template argument to the `ScAgent` class. For example, you can generate agent that will be triggered to sc-event of removing sc-element.
+Вы можете указать любые существующие типы событий в качестве аргумента шаблона для класса `ScAgent`. Например, вы можете сгенерировать агент, который будет запускаться при sc-событии удаления sc-элемента.
 
 ```cpp
-// File my_agent.hpp
+// файл my_agent.hpp
 #pragma once
 
 #include <sc-memory/sc_agent.hpp>
@@ -214,14 +214,14 @@ public:
   ScResult DoProgram(
     ScEventBeforeEraseElement const & event, ScAction & action) override;
 
-  // Other user-defined methods.
+ // Другие методы, определяемые пользователем.
 };
 ```
 
-If you want to change specification of this agent in knowledge base, then write like this:
+Если вы хотите изменить спецификацию этого агента в базе знаний, то напишите следующим образом:
 
 ```cpp
-// File my_agent.hpp
+// файл my_agent.hpp
 #pragma once
 
 #include <sc-memory/sc_agent.hpp>
@@ -233,49 +233,49 @@ public:
   ScResult DoProgram(
     ScElementaryEvent const & event, ScAction & action) override;
 
-  // Other user-defined methods.
+   // Другие методы, определяемые пользователем.
 };
 ```
 
-This implementation allows to provide any sc-event type to `DoProgram`.
+Эта реализация позволяет запрограммировать любой тип sc-события в "DoProgram`.
 
-!!! note
-    `ScElementaryEventAgent` is alias for `ScAgent<ScElementaryEvent>`.
+!!! примечание
+    `ScElementaryEventAgent` - это псевдоним для "ScAgent<элементарное событие>`.
 
 ### **ScActionInitiatedAgent**
 
-In multi-agent systems most of the agents are implemented to execute actions initiated by other agents. While `ScAgent` is useful to generate broad event handling logic, using it to handle action initiations requires some boilerplate. We've implemented another agent class to make it easier for our users to implement action-executing agents. Implementing these agents requires passing action class node rather than checking initiation condition manually.
+В мультиагентных системах большинство агентов реализованы для выполнения действий, инициированных другими агентами. Хотя `ScAgent` полезен для создания общей логики обработки событий, его использование для обработки инициализации действий требует некоторого шаблона. Мы внедрили еще один класс агентов, чтобы нашим пользователям было проще внедрять агенты, выполняющие действия. Для реализации этих агентов требуется передать узел класса действий, а не проверять условие запуска вручную.
 
-This class can be only used for agents that should be triggered by generating an outgoing sc-arc from `action_initiated` class node.
+Этот класс может использоваться только для агентов, которые должны запускаться путем генерации исходящей sc-дуги из узла класса `action_initiated`.
 
 ```cpp
-// File my_agent.hpp
+// файл my_agent.hpp
 #pragma once
 
 #include <sc-memory/sc_agent.hpp>
 
-// Inherit your agent class from `ScActionInitiatedAgent` class.
+// Наследуйте свой класс agent от класса `ScActionInitiatedAgent`.
 class MyAgent : public ScActionInitiatedAgent
 {
 public:
-  // Here you should specify class of actions which the given agent performs. 
-  // This overriding is required.
+ // Здесь вы должны указать класс действий, которые выполняет данный агент. 
+ // Это переопределение обязательно.
   ScAddr GetActionClass() const override;
-  // Here you should implement program of the given agent. 
-  // This overriding is required.
+  // Здесь вы должны реализовать программу данного агента. 
+  // Это переопределение обязательно.
   ScResult DoProgram(
     ScActionInitiatedEvent const & event, ScAction & action) override;
-  // Here `ScActionInitiatedEvent` is type of event to which 
-  // the given agent reacts.
+  // Здесь `ScActionInitiatedEvent` - это тип события, на которое реагирует 
+  // данный агент.
 
-  // Other user-defined methods.
+  // Другие методы, определяемые пользователем.
 };
 ```
 
-!!! note
+!!! примечание
     `ScActionInitiatedAgent` has default `GetInitiationConditionTemplate` that returns template that can be used to check that initiated action is action with class of specified agent.
 
-!!! note
+!!! примечание
     `ScActionInitiatedEvent` is alias for `ScEventAfterGenerateOutgoingArc<ScType::ConstPermPosArc>` with subscription sc-element `action_initiated`.
 
 ---
