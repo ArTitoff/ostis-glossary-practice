@@ -273,10 +273,10 @@ public:
 ```
 
 !!! примечание
-    `ScActionInitiatedAgent` has default `GetInitiationConditionTemplate` that returns template that can be used to check that initiated action is action with class of specified agent.
+    `ScActionInitiatedAgent` имеет значение по умолчанию `GetInitiationConditionTemplate`, которое возвращает шаблон, который можно использовать для проверки того, что инициированное действие является действием с классом указанного агента.
 
 !!! примечание
-    `ScActionInitiatedEvent` is alias for `ScEventAfterGenerateOutgoingArc<ScType::ConstPermPosArc>` with subscription sc-element `action_initiated`.
+    `ScActionInitiatedEvent` - это псевдоним для `ScEventAfterGenerateOutgoingArc<ScType::ConstPermPosArc>` с элементом sc подписки `action_initiated`.
 
 ---
 
